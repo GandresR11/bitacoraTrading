@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Forex Trading Journal & Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Touch target adjustments & mobile scroll smoothing */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .touch-target {
+            min-height: 44px;
+        }
+        /* Custom scrollbar for desktop */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col pb-20 md:pb-6">
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="p-2 bg-green-500/10 text-green-500 rounded-xl">
+                    <i data-lucide="candlestick-chart" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold leading-tight">FX Journal Pro</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Bitácora & Psicología</p>
+                </div>
+            </div>
+
+            <!-- DESKTOP TABS & THEME / SETTINGS -->
+            <div class="flex items-center gap-2">
+                <nav class="hidden md:flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-xl mr-2">
+                    <button onclick="switchTab('registro')" id="desk-tab-registro" class="px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 text-white bg-green-600 shadow-sm">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Registrar
+                    </button>
+                    <button onclick="switchTab('bitacora')" id="desk-tab-bitacora" class="px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                        <i data-lucide="list" class="w-4 h-4"></i> Bitácora
+                    </button>
+                    <button onclick="switchTab('stats')" id="desk-tab-stats" class="px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Estadísticas
+                    </button>
+                </nav>
+
+                <button onclick="toggleTheme()" class="touch-target p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Cambiar Tema">
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                </button>
+
+                <button onclick="openSettingsModal()" class="touch-target p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Ajustes y Datos">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6">
+        
+        <!-- PESTAÑA 1: REGISTRAR OPERACIÓN -->
+        <section id="tab-registro" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold">Nueva Operación</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Registra el contexto operativo y tu estado emocional antes de entrar.</p>
+                </div>
+            </div>
+
+            <form id="tradeForm" onsubmit="handleSaveTrade(event)" class="space-y-6">
+                <!-- Información Básica -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 md:p-6 space-y-4 shadow-sm">
+                    <h3 class="text-sm font-semibold text-green-600 dark:text-green-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-4 h-4"></i> Configuración Inicial
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Par de divisas -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Par de Divisas</label>
+                            <div class="flex gap-2">
+                                <select id="pairSelect" required class="flex-1 touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                                    <option value="EURUSD">EUR/USD</option>
+                                    <option value="GBPUSD">GBP/USD</option>
+                                    <option value="USDJPY">USD/JPY</option>
+                                    <option value="XAUUSD">XAU/USD (Oro)</option>
+                                    <option value="AUDUSD">AUD/USD</option>
+                                    <option value="USDCAD">USD/CAD</option>
+                                </select>
+                                <button type="button" onclick="addNewPair()" class="touch-target px-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-xl flex items-center justify-center" title="Agregar Par Custom">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Dirección (Compra / Venta) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Dirección</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="touch-target flex items-center justify-center gap-2 p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 has-[:checked]:bg-green-500/10 has-[:checked]:border-green-500 has-[:checked]:text-green-600">
+                                    <input type="radio" name="direction" value="BUY" checked class="hidden">
+                                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                    <span class="text-sm font-semibold">BUY</span>
+                                </label>
+                                <label class="touch-target flex items-center justify-center gap-2 p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 has-[:checked]:bg-red-500/10 has-[:checked]:border-red-500 has-[:checked]:text-red-600">
+                                    <input type="radio" name="direction" value="SELL" class="hidden">
+                                    <i data-lucide="trending-down" class="w-4 h-4"></i>
+                                    <span class="text-sm font-semibold">SELL</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Fecha y Hora -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Fecha y Hora Local</label>
+                            <input type="datetime-local" id="tradeDateTime" required class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                        </div>
+
+                        <!-- Temporalidad Impulso -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Temporalidad Impulso / Bias</label>
+                            <select id="impulseTF" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                                <option value="1H">1H (1 Hora)</option>
+                                <option value="15M">15M (15 Minutos)</option>
+                                <option value="4H">4H (4 Horas)</option>
+                                <option value="1D">1D (Diario)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis Técnico y Zona -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 md:p-6 space-y-4 shadow-sm">
+                    <h3 class="text-sm font-semibold text-green-600 dark:text-green-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4"></i> Contexto & Confirmación
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Tipo de Zona -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Tipo de Zona</label>
+                            <select id="zoneType" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                                <option value="IFVG">IFVG (Inverted FVG)</option>
+                                <option value="FVG">FVG (Fair Value Gap)</option>
+                                <option value="OB">OB (Order Block)</option>
+                                <option value="General">General / Soporte-Resistencia</option>
+                            </select>
+                        </div>
+
+                        <!-- Temporalidad Confirmación -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Temporalidad Confirmación</label>
+                            <select id="confirmationTF" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                                <option value="5M">5M</option>
+                                <option value="1M">1M</option>
+                                <option value="15M">15M</option>
+                                <option value="Directa">Directa (Sin confirmación menor)</option>
+                            </select>
+                        </div>
+
+                        <!-- Tipo de Confirmación -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Gatillo de Confirmación</label>
+                            <select id="confirmationType" onchange="toggleCustomConfirmation()" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                                <option value="CHoCH / MSS">CHoCH / MSS (Market Structure Shift)</option>
+                                <option value="Liquidity Sweep">Barrido de Liquidez (Sweep)</option>
+                                <option value="Breaker Block">Breaker Block</option>
+                                <option value="Vwap Bounce">Rebote VWAP / EMAs</option>
+                                <option value="Otro">Otro (Especificar)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Campo dinámico para 'Otro' -->
+                    <div id="customConfirmationContainer" class="hidden">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Especificar Confirmación</label>
+                        <input type="text" id="customConfirmation" placeholder="Ej: Envolvente en VWAP + SMT" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+
+                    <!-- Checkboxes Psicotrading / Checklist -->
+                    <div class="pt-2">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Checklist Pre-Operación & Contexto</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="touch-target flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-800 cursor-pointer">
+                                <input type="checkbox" id="checkReentry" class="w-5 h-5 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-700">
+                                <span class="text-sm font-medium">¿Es una Reentrada?</span>
+                            </label>
+
+                            <label class="touch-target flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-800 cursor-pointer">
+                                <input type="checkbox" id="checkNews" class="w-5 h-5 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-700">
+                                <span class="text-sm font-medium">Respetó Noticias / Macro</span>
+                            </label>
+
+                            <label class="touch-target flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-800 cursor-pointer">
+                                <input type="checkbox" id="checkPlan" class="w-5 h-5 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-700" checked>
+                                <span class="text-sm font-medium">100% Alineado con el Trading Plan</span>
+                            </label>
+
+                            <label class="touch-target flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-800 cursor-pointer">
+                                <input type="checkbox" id="checkCalm" class="w-5 h-5 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-700" checked>
+                                <span class="text-sm font-medium">Estado Mental Sereno (Sin FOMO/Venganza)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bitácora Emocional -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 md:p-6 space-y-3 shadow-sm">
+                    <h3 class="text-sm font-semibold text-green-600 dark:text-green-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="brain" class="w-4 h-4"></i> Psicología Pre-Operación
+                    </h3>
+                    <textarea id="emotionalNotes" rows="3" placeholder="¿Qué sientes antes de ejecutar? (Ej: Confiado por alineación con DXY, ligero temor por la noticia de las 10:00...)" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"></textarea>
+                </div>
+
+                <!-- Botón de Guardado -->
+                <button type="submit" class="w-full touch-target py-3.5 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold rounded-xl shadow-lg shadow-green-600/20 transition-all flex items-center justify-center gap-2 text-base">
+                    <i data-lucide="save" class="w-5 h-5"></i> Guardar Operación en Bitácora
+                </button>
+            </form>
+        </section>
+
+        <!-- PESTAÑA 2: BITÁCORA Y CARGA DE RESULTADOS -->
+        <section id="tab-bitacora" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold">Bitácora de Trades</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Revisa tus entradas y carga los resultados finales.</p>
+                </div>
+
+                <!-- Filtros Rápidos -->
+                <div class="flex items-center gap-1.5 bg-gray-200 dark:bg-gray-800 p-1 rounded-xl self-start sm:self-auto">
+                    <button onclick="setFilter('ALL')" id="filter-ALL" class="touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm">
+                        Todas
+                    </button>
+                    <button onclick="setFilter('PENDING')" id="filter-PENDING" class="touch-target px-3 py-1.5 text-xs font-semibold rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                        Pendientes
+                    </button>
+                    <button onclick="setFilter('CLOSED')" id="filter-CLOSED" class="touch-target px-3 py-1.5 text-xs font-semibold rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                        Cerradas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trade Cards Grid -->
+            <div id="tradesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Se llena dinámicamente con JS -->
+            </div>
+        </section>
+
+        <!-- PESTAÑA 3: DASHBOARD DE ESTADÍSTICAS (10 MÉTRICAS) -->
+        <section id="tab-stats" class="space-y-6 hidden">
+            <div>
+                <h2 class="text-xl font-bold">Dashboard de Rendimiento</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Análisis detallado de tus 10 métricas clave de trading.</p>
+            </div>
+
+            <!-- METRICAS KPI GRID -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <!-- Métrica 1: Win Rate -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400">1. Win Rate Effective</p>
+                    <h3 id="stat-winrate" class="text-2xl md:text-3xl font-extrabold text-green-600 dark:text-green-400 mt-1">0%</h3>
+                    <p id="stat-winrate-sub" class="text-xs text-gray-400 mt-1">0 TP / 0 Trades</p>
+                </div>
+
+                <!-- Métrica 2: Profit Factor / R:R Neto -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400">2. R:R Total Acumulado</p>
+                    <h3 id="stat-rr-total" class="text-2xl md:text-3xl font-extrabold mt-1">0.0 R</h3>
+                    <p class="text-xs text-gray-400 mt-1">Rendimiento global</p>
+                </div>
+
+                <!-- Métrica 3: Par más rentable -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400">3. Par Más Rentable</p>
+                    <h3 id="stat-best-pair" class="text-xl md:text-2xl font-bold mt-1 text-gray-800 dark:text-gray-200">-</h3>
+                    <p id="stat-best-pair-sub" class="text-xs text-gray-400 mt-1">0.0 R generados</p>
+                </div>
+
+                <!-- Métrica 4: Par más frecuente -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400">4. Par Más Operado</p>
+                    <h3 id="stat-frequent-pair" class="text-xl md:text-2xl font-bold mt-1 text-gray-800 dark:text-gray-200">-</h3>
+                    <p id="stat-frequent-pair-sub" class="text-xs text-gray-400 mt-1">0 ejecuciones</p>
+                </div>
+            </div>
+
+            <!-- DETALLES DE ANÁLISIS EN CUADRÍCULA -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Métrica 5: Distribución TP/SL/BE/Manual -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>5. Distribución de Cierres</span>
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-gray-400"></i>
+                    </h3>
+                    <div id="stat-distribution-bars" class="space-y-2">
+                        <!-- Bars filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Métrica 6: Disciplina SL Movido (Alerta) -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>6. Disciplina de Stop Loss</span>
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-yellow-500"></i>
+                    </h3>
+                    <div id="stat-sl-moved-container" class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <p class="text-xs text-gray-500 dark:text-gray-400">¿Se ha movido el SL fuera de plan?</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span id="stat-sl-moved-count" class="text-lg font-bold text-gray-800 dark:text-gray-200">0 Trades (0%)</span>
+                            <span id="stat-sl-badge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
+                                100% Disciplinado
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Métrica 7: Efectividad por Impulso (1H vs 15M) -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>7. Efectividad: 1H vs 15M Bias</span>
+                        <i data-lucide="clock" class="w-4 h-4 text-gray-400"></i>
+                    </h3>
+                    <div id="stat-tf-breakdown" class="grid grid-cols-2 gap-3">
+                        <!-- Content JS -->
+                    </div>
+                </div>
+
+                <!-- Métrica 8: Rendimiento por Tipo de Zona -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>8. Rendimiento por Zona (IFVG vs FVG vs OB)</span>
+                        <i data-lucide="layers" class="w-4 h-4 text-gray-400"></i>
+                    </h3>
+                    <div id="stat-zone-breakdown" class="space-y-2">
+                        <!-- Content JS -->
+                    </div>
+                </div>
+
+                <!-- Métrica 9: Reentradas vs Primeras Entradas -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>9. Reentradas vs 1ª Entrada</span>
+                        <i data-lucide="refresh-cw" class="w-4 h-4 text-gray-400"></i>
+                    </h3>
+                    <div id="stat-reentry-breakdown" class="grid grid-cols-2 gap-3">
+                        <!-- Content JS -->
+                    </div>
+                </div>
+
+                <!-- Métrica 10: Rachas de Win / Loss Seguidos -->
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-sm font-semibold flex items-center justify-between">
+                        <span>10. Rachas Consecutivas Máximas</span>
+                        <i data-lucide="zap" class="w-4 h-4 text-yellow-500"></i>
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="p-3 bg-green-500/10 rounded-xl border border-green-500/20">
+                            <p class="text-xs text-green-600 dark:text-green-400 font-semibold">Racha Max TP</p>
+                            <p id="stat-max-win-streak" class="text-xl font-extrabold text-green-700 dark:text-green-300 mt-1">0 Seguidos</p>
+                        </div>
+                        <div class="p-3 bg-red-500/10 rounded-xl border border-red-500/20">
+                            <p class="text-xs text-red-600 dark:text-red-400 font-semibold">Racha Max SL</p>
+                            <p id="stat-max-loss-streak" class="text-xl font-extrabold text-red-700 dark:text-red-300 mt-1">0 Seguidos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listado de Notas Emocionales Post/Pre Operación -->
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm space-y-4">
+                <h3 class="text-sm font-semibold flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-4 h-4 text-green-500"></i>
+                    Índice de Reflexiones Emocionales & Bitácora
+                </h3>
+                <div id="stat-emotional-log" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 flex items-center justify-around py-2 px-3 shadow-lg">
+        <button onclick="switchTab('registro')" id="mob-tab-registro" class="flex flex-col items-center justify-center w-full py-1 text-green-600 dark:text-green-400 font-semibold">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            <span class="text-[11px] mt-1">Registrar</span>
+        </button>
+        <button onclick="switchTab('bitacora')" id="mob-tab-bitacora" class="flex flex-col items-center justify-center w-full py-1 text-gray-500 dark:text-gray-400">
+            <i data-lucide="list" class="w-5 h-5"></i>
+            <span class="text-[11px] mt-1">Bitácora</span>
+        </button>
+        <button onclick="switchTab('stats')" id="mob-tab-stats" class="flex flex-col items-center justify-center w-full py-1 text-gray-500 dark:text-gray-400">
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+            <span class="text-[11px] mt-1">Métricas</span>
+        </button>
+    </nav>
+
+    <!-- MODAL 1: EDITAR RESULTADO DE TRADE (TP/SL/BE) -->
+    <div id="closeTradeModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm hidden p-0 sm:p-4">
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl p-5 md:p-6 space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+                <h3 class="text-base font-bold flex items-center gap-2">
+                    <i data-lucide="check-square" class="w-5 h-5 text-green-500"></i>
+                    Cargar Resultado del Trade
+                </h3>
+                <button onclick="closeResultModal()" class="touch-target p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="resultForm" onsubmit="handleSaveResult(event)" class="space-y-4">
+                <input type="hidden" id="modalTradeId">
+
+                <!-- Resultado Estado -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Resultado</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        <label class="touch-target flex flex-col items-center justify-center p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer has-[:checked]:bg-green-500/10 has-[:checked]:border-green-500 has-[:checked]:text-green-600">
+                            <input type="radio" name="outcome" value="TP" checked class="hidden">
+                            <span class="text-xs font-bold">TP</span>
+                        </label>
+                        <label class="touch-target flex flex-col items-center justify-center p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer has-[:checked]:bg-red-500/10 has-[:checked]:border-red-500 has-[:checked]:text-red-600">
+                            <input type="radio" name="outcome" value="SL" class="hidden">
+                            <span class="text-xs font-bold">SL</span>
+                        </label>
+                        <label class="touch-target flex flex-col items-center justify-center p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer has-[:checked]:bg-gray-500/10 has-[:checked]:border-gray-500 has-[:checked]:text-gray-400">
+                            <input type="radio" name="outcome" value="BE" class="hidden">
+                            <span class="text-xs font-bold">BE</span>
+                        </label>
+                        <label class="touch-target flex flex-col items-center justify-center p-2 border border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer has-[:checked]:bg-yellow-500/10 has-[:checked]:border-yellow-500 has-[:checked]:text-yellow-600">
+                            <input type="radio" name="outcome" value="MANUAL" class="hidden">
+                            <span class="text-xs font-bold">Manual</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Ratio R:R Ganado/Perdido -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Resultado en R (R:R)</label>
+                        <input type="number" step="0.1" id="resultRR" placeholder="Ej: 2.5 o -1.0" required class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+
+                    <!-- Pips Obtenidos -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Pips (Opcional)</label>
+                        <input type="number" step="0.1" id="resultPips" placeholder="Ej: 25.4" class="w-full touch-target bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Toggle: Modificó el SL -->
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold">¿Moviste el SL durante la operación?</p>
+                        <p class="text-[11px] text-gray-400">Evalúa la disciplina psicológica</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="slMovedToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                    </label>
+                </div>
+
+                <!-- Comentario Post-Trade -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">Bitácora Emocional & Lecciones Post-Trade</label>
+                    <textarea id="postNotes" rows="3" placeholder="¿Qué aprendiste de la ejecución? ¿Cerraste antes de tiempo por ansiedad?" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeResultModal()" class="w-1/2 touch-target py-3 bg-gray-200 dark:bg-gray-800 font-semibold rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="w-1/2 touch-target py-3 bg-green-600 text-white font-bold rounded-xl text-xs shadow-md">Guardar Resultado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: AJUSTES Y GESTIÓN DE DATOS (SEED DEMO, EXPORT, IMPORT) -->
+    <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 w-full max-w-md rounded-2xl p-5 md:p-6 space-y-5 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+                <h3 class="text-base font-bold flex items-center gap-2">
+                    <i data-lucide="database" class="w-5 h-5 text-green-500"></i>
+                    Gestión de Datos & Ajustes
+                </h3>
+                <button onclick="closeSettingsModal()" class="touch-target p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Herramientas de respaldo, demostración y reseteo de almacenamiento local.</p>
+
+                <!-- Botón Cargar Datos Demo -->
+                <button onclick="seedDemoData()" class="w-full touch-target p-3 bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 text-green-600 dark:text-green-400 rounded-xl font-medium text-xs flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Cargar Datos de Prueba (Seed Demo)</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Exportar JSON -->
+                <button onclick="exportJSON()" class="w-full touch-target p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl font-medium text-xs flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Exportar Copia de Seguridad (JSON)</span>
+                    <i data-lucide="file-json" class="w-4 h-4 text-gray-400"></i>
+                </button>
+
+                <!-- Exportar CSV -->
+                <button onclick="exportCSV()" class="w-full touch-target p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl font-medium text-xs flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Exportar para Excel / Sheets (CSV)</span>
+                    <i data-lucide="table" class="w-4 h-4 text-gray-400"></i>
+                </button>
+
+                <!-- Importar JSON -->
+                <div class="relative">
+                    <input type="file" id="importFileInput" accept=".json" onchange="importJSON(event)" class="hidden">
+                    <button onclick="document.getElementById('importFileInput').click()" class="w-full touch-target p-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl font-medium text-xs flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i data-lucide="upload" class="w-4 h-4"></i> Importar Datos desde JSON</span>
+                        <i data-lucide="folder-open" class="w-4 h-4 text-gray-400"></i>
+                    </button>
+                </div>
+
+                <!-- Borrar todo -->
+                <button onclick="clearAllData()" class="w-full touch-target p-3 bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 rounded-xl font-medium text-xs flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="trash-2" class="w-4 h-4"></i> Resetear / Borrar Todos los Datos</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- ESTADO Y PERSISTENCIA ---
+        const STORAGE_KEY = 'fx_journal_trades_v1';
+        let trades = [];
+        let currentFilter = 'ALL';
+
+        // Inicialización al cargar el DOM
+        window.onload = function() {
+            lucide.createIcons();
+            setDefaultDateTime();
+            loadTrades();
+            renderTrades();
+            renderStats();
+        };
+
+        // Fecha y hora local actual para el formulario
+        function setDefaultDateTime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('tradeDateTime').value = now.toISOString().slice(0, 16);
+        }
+
+        // --- GESTIÓN DE TEMA DÍA / NOCHE ---
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // --- NAVEGACIÓN Y PESTAÑAS ---
+        function switchTab(tabName) {
+            ['registro', 'bitacora', 'stats'].forEach(t => {
+                const section = document.getElementById(`tab-${t}`);
+                const deskBtn = document.getElementById(`desk-tab-${t}`);
+                const mobBtn = document.getElementById(`mob-tab-${t}`);
+
+                if (t === tabName) {
+                    section.classList.remove('hidden');
+                    if (deskBtn) deskBtn.className = "px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 text-white bg-green-600 shadow-sm";
+                    if (mobBtn) mobBtn.className = "flex flex-col items-center justify-center w-full py-1 text-green-600 dark:text-green-400 font-semibold";
+                } else {
+                    section.classList.add('hidden');
+                    if (deskBtn) deskBtn.className = "px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white";
+                    if (mobBtn) mobBtn.className = "flex flex-col items-center justify-center w-full py-1 text-gray-500 dark:text-gray-400";
+                }
+            });
+
+            if (tabName === 'stats') {
+                renderStats();
+            } else if (tabName === 'bitacora') {
+                renderTrades();
+            }
+        }
+
+        // --- AGREGAR PARES CUSTOM ---
+        function addNewPair() {
+            const newPair = prompt("Ingresa el nuevo Par de Divisas (ej: NZDUSD o NAS100):");
+            if (newPair && newPair.trim() !== '') {
+                const cleanPair = newPair.trim().toUpperCase();
+                const select = document.getElementById('pairSelect');
+                const option = document.createElement('option');
+                option.value = cleanPair;
+                option.textContent = cleanPair;
+                select.appendChild(option);
+                select.value = cleanPair;
+            }
+        }
+
+        // --- MOSTRAR / OCULTAR CAMPO 'OTRO' DE CONFIRMACIÓN ---
+        function toggleCustomConfirmation() {
+            const select = document.getElementById('confirmationType');
+            const container = document.getElementById('customConfirmationContainer');
+            if (select.value === 'Otro') {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        // --- CÓDIGO DE TRADES / LOCALSTORAGE ---
+        function loadTrades() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    trades = JSON.parse(saved);
+                } catch(e) {
+                    trades = [];
+                }
+            }
+        }
+
+        function saveTrades() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(trades));
+        }
+
+        // --- MÓDULO 1: GUARDAR TRADE ---
+        function handleSaveTrade(e) {
+            e.preventDefault();
+
+            const confSelect = document.getElementById('confirmationType').value;
+            const customConf = document.getElementById('customConfirmation').value;
+            const finalConfirmation = confSelect === 'Otro' ? (customConf || 'Otro') : confSelect;
+
+            const newTrade = {
+                id: 'trade_' + Date.now(),
+                pair: document.getElementById('pairSelect').value,
+                direction: document.querySelector('input[name="direction"]:checked').value,
+                dateTime: document.getElementById('tradeDateTime').value,
+                impulseTF: document.getElementById('impulseTF').value,
+                zoneType: document.getElementById('zoneType').value,
+                confirmationTF: document.getElementById('confirmationTF').value,
+                confirmationType: finalConfirmation,
+                isReentry: document.getElementById('checkReentry').checked,
+                respectedNews: document.getElementById('checkNews').checked,
+                followedPlan: document.getElementById('checkPlan').checked,
+                mentalCalm: document.getElementById('checkCalm').checked,
+                emotionalNotes: document.getElementById('emotionalNotes').value,
+                // Datos de cierre (inicialmente pendiente)
+                status: 'PENDING', // PENDING o CLOSED
+                outcome: null, // TP, SL, BE, MANUAL
+                rr: null,
+                pips: null,
+                slMoved: false,
+                postNotes: ''
+            };
+
+            trades.unshift(newTrade);
+            saveTrades();
+
+            // Reset Formulario
+            document.getElementById('tradeForm').reset();
+            document.getElementById('customConfirmationContainer').classList.add('hidden');
+            setDefaultDateTime();
+
+            // Notificación visual rápida
+            alert('¡Operación registrada con éxito en la Bitácora!');
+            switchTab('bitacora');
+        }
+
+        // --- MÓDULO 2: FILTROS Y RENDER DE BITÁCORA ---
+        function setFilter(filter) {
+            currentFilter = filter;
+            ['ALL', 'PENDING', 'CLOSED'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (f === filter) {
+                    btn.className = "touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-sm";
+                } else {
+                    btn.className = "touch-target px-3 py-1.5 text-xs font-semibold rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white";
+                }
+            });
+            renderTrades();
+        }
+
+        function renderTrades() {
+            const container = document.getElementById('tradesList');
+            container.innerHTML = '';
+
+            let filteredTrades = trades;
+            if (currentFilter === 'PENDING') filteredTrades = trades.filter(t => t.status === 'PENDING');
+            if (currentFilter === 'CLOSED') filteredTrades = trades.filter(t => t.status === 'CLOSED');
+
+            if (filteredTrades.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl">
+                        <i data-lucide="inbox" class="w-10 h-10 mx-auto text-gray-400 mb-2"></i>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">No hay operaciones registradas en esta vista.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            filteredTrades.forEach(trade => {
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 shadow-sm flex flex-col justify-between space-y-3";
+
+                // Badges y Estado
+                let outcomeBadge = '<span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-yellow-500/10 text-yellow-600 dark:text-yellow-400">PENDIENTE</span>';
+                if (trade.status === 'CLOSED') {
+                    if (trade.outcome === 'TP') outcomeBadge = `<span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">TP (+${trade.rr}R)</span>`;
+                    else if (trade.outcome === 'SL') outcomeBadge = `<span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-red-500/10 text-red-600 dark:text-red-400">SL (${trade.rr}R)</span>`;
+                    else if (trade.outcome === 'BE') outcomeBadge = `<span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-gray-500/10 text-gray-400">BE (0.0R)</span>`;
+                    else outcomeBadge = `<span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-yellow-500/10 text-yellow-600">MANUAL (${trade.rr}R)</span>`;
+                }
+
+                const isBuy = trade.direction === 'BUY';
+                const dirColor = isBuy ? 'text-green-600 dark:text-green-400 bg-green-500/10' : 'text-red-600 dark:text-red-400 bg-red-500/10';
+
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base font-extrabold">${trade.pair}</span>
+                                <span class="px-2 py-0.5 text-xs font-bold rounded-md ${dirColor}">${trade.direction}</span>
+                            </div>
+                            ${outcomeBadge}
+                        </div>
+
+                        <div class="text-xs text-gray-500 dark:text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
+                            <span><strong class="text-gray-700 dark:text-gray-300">Fecha:</strong> ${trade.dateTime.replace('T', ' ')}</span>
+                            <span><strong class="text-gray-700 dark:text-gray-300">Impulso:</strong> ${trade.impulseTF}</span>
+                            <span><strong class="text-gray-700 dark:text-gray-300">Zona:</strong> ${trade.zoneType}</span>
+                        </div>
+
+                        <div class="text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/60 p-2.5 rounded-xl space-y-1 border border-gray-100 dark:border-gray-800">
+                            <p><strong>Confirmación:</strong> ${trade.confirmationTF} - ${trade.confirmationType}</p>
+                            ${trade.isReentry ? '<p class="text-yellow-600 dark:text-yellow-400 font-semibold">• Es una Reentrada</p>' : ''}
+                            ${trade.emotionalNotes ? `<p class="italic text-gray-500 dark:text-gray-400">"${trade.emotionalNotes}"</p>` : ''}
+                        </div>
+
+                        ${trade.status === 'CLOSED' ? `
+                            <div class="text-xs pt-1 border-t border-gray-100 dark:border-gray-800 space-y-1">
+                                ${trade.slMoved ? '<p class="text-yellow-600 dark:text-yellow-400 font-medium">⚠️ SL fue modificado durante la orden</p>' : ''}
+                                ${trade.postNotes ? `<p class="text-gray-600 dark:text-gray-300"><strong>Lección:</strong> ${trade.postNotes}</p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                        <button onclick="openResultModal('${trade.id}')" class="touch-target px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow-sm">
+                            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> ${trade.status === 'CLOSED' ? 'Editar Resultado' : 'Cargar Resultado'}
+                        </button>
+                        <button onclick="deleteTrade('${trade.id}')" class="touch-target p-2 text-gray-400 hover:text-red-500 rounded-xl" title="Eliminar">
+                            <i data-lucide="trash" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Modal Cargar Resultado
+        function openResultModal(tradeId) {
+            const trade = trades.find(t => t.id === tradeId);
+            if (!trade) return;
+
+            document.getElementById('modalTradeId').value = trade.id;
+            document.getElementById('resultRR').value = trade.rr !== null ? trade.rr : '';
+            document.getElementById('resultPips').value = trade.pips !== null ? trade.pips : '';
+            document.getElementById('slMovedToggle').checked = trade.slMoved || false;
+            document.getElementById('postNotes').value = trade.postNotes || '';
+
+            if (trade.outcome) {
+                const radio = document.querySelector(`input[name="outcome"][value="${trade.outcome}"]`);
+                if (radio) radio.checked = true;
+            }
+
+            document.getElementById('closeTradeModal').classList.remove('hidden');
+        }
+
+        function closeResultModal() {
+            document.getElementById('closeTradeModal').classList.add('hidden');
+        }
+
+        function handleSaveResult(e) {
+            e.preventDefault();
+            const id = document.getElementById('modalTradeId').value;
+            const trade = trades.find(t => t.id === id);
+
+            if (trade) {
+                trade.status = 'CLOSED';
+                trade.outcome = document.querySelector('input[name="outcome"]:checked').value;
+                trade.rr = parseFloat(document.getElementById('resultRR').value) || 0;
+                trade.pips = parseFloat(document.getElementById('resultPips').value) || 0;
+                trade.slMoved = document.getElementById('slMovedToggle').checked;
+                trade.postNotes = document.getElementById('postNotes').value;
+
+                saveTrades();
+                closeResultModal();
+                renderTrades();
+            }
+        }
+
+        function deleteTrade(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+                trades = trades.filter(t => t.id !== id);
+                saveTrades();
+                renderTrades();
+            }
+        }
+
+        // --- MÓDULO 3: DASHBOARD DE ESTADÍSTICAS ---
+        function renderStats() {
+            const closedTrades = trades.filter(t => t.status === 'CLOSED');
+            const totalClosed = closedTrades.length;
+
+            // 1. Win Rate
+            const wins = closedTrades.filter(t => t.outcome === 'TP').length;
+            const winRate = totalClosed > 0 ? ((wins / totalClosed) * 100).toFixed(1) : '0';
+            document.getElementById('stat-winrate').textContent = `${winRate}%`;
+            document.getElementById('stat-winrate-sub').textContent = `${wins} TP / ${totalClosed} Cerrados`;
+
+            // 2. R:R Total
+            const totalRR = closedTrades.reduce((acc, t) => acc + (t.rr || 0), 0).toFixed(1);
+            document.getElementById('stat-rr-total').textContent = `${totalRR > 0 ? '+' : ''}${totalRR} R`;
+            document.getElementById('stat-rr-total').className = `text-2xl md:text-3xl font-extrabold mt-1 ${totalRR >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`;
+
+            // 3. Par Más Rentable & 4. Par Más Operado
+            const pairMap = {};
+            closedTrades.forEach(t => {
+                if (!pairMap[t.pair]) pairMap[t.pair] = { count: 0, rr: 0 };
+                pairMap[t.pair].count += 1;
+                pairMap[t.pair].rr += (t.rr || 0);
+            });
+
+            let bestPair = '-';
+            let bestRR = -999;
+            let frequentPair = '-';
+            let maxCount = 0;
+
+            Object.keys(pairMap).forEach(pair => {
+                if (pairMap[pair].rr > bestRR) {
+                    bestRR = pairMap[pair].rr;
+                    bestPair = pair;
+                }
+                if (pairMap[pair].count > maxCount) {
+                    maxCount = pairMap[pair].count;
+                    frequentPair = pair;
+                }
+            });
+
+            document.getElementById('stat-best-pair').textContent = bestPair;
+            document.getElementById('stat-best-pair-sub').textContent = bestRR !== -999 ? `${bestRR.toFixed(1)} R acumulados` : '0.0 R';
+            document.getElementById('stat-frequent-pair').textContent = frequentPair;
+            document.getElementById('stat-frequent-pair-sub').textContent = `${maxCount} ejecuciones`;
+
+            // 5. Distribución TP/SL/BE/Manual
+            const tpCount = closedTrades.filter(t => t.outcome === 'TP').length;
+            const slCount = closedTrades.filter(t => t.outcome === 'SL').length;
+            const beCount = closedTrades.filter(t => t.outcome === 'BE').length;
+            const manualCount = closedTrades.filter(t => t.outcome === 'MANUAL').length;
+
+            const distContainer = document.getElementById('stat-distribution-bars');
+            distContainer.innerHTML = `
+                ${renderProgressBar('Take Profit (TP)', tpCount, totalClosed, 'bg-green-500')}
+                ${renderProgressBar('Stop Loss (SL)', slCount, totalClosed, 'bg-red-500')}
+                ${renderProgressBar('Break Even (BE)', beCount, totalClosed, 'bg-gray-400')}
+                ${renderProgressBar('Cierre Manual', manualCount, totalClosed, 'bg-yellow-500')}
+            `;
+
+            // 6. Disciplina SL Movido
+            const slMovedCount = closedTrades.filter(t => t.slMoved).length;
+            const slMovedPct = totalClosed > 0 ? ((slMovedCount / totalClosed) * 100).toFixed(0) : 0;
+            document.getElementById('stat-sl-moved-count').textContent = `${slMovedCount} Trades (${slMovedPct}%)`;
+            
+            const slBadge = document.getElementById('stat-sl-badge');
+            if (slMovedCount === 0) {
+                slBadge.textContent = "100% Disciplinado";
+                slBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-green-500/10 text-green-600 dark:text-green-400";
+            } else {
+                slBadge.textContent = "⚠️ Alerta de Disciplina";
+                slBadge.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-yellow-500/10 text-yellow-600 dark:text-yellow-400";
+            }
+
+            // 7. Efectividad por Temporalidad (1H vs 15M Bias)
+            const h1Trades = closedTrades.filter(t => t.impulseTF === '1H');
+            const m15Trades = closedTrades.filter(t => t.impulseTF === '15M');
+            const h1Wins = h1Trades.filter(t => t.outcome === 'TP').length;
+            const m15Wins = m15Trades.filter(t => t.outcome === 'TP').length;
+
+            document.getElementById('stat-tf-breakdown').innerHTML = `
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500">Impulso 1H</p>
+                    <p class="text-lg font-extrabold mt-1">${h1Trades.length > 0 ? ((h1Wins/h1Trades.length)*100).toFixed(0) : 0}% Win Rate</p>
+                    <p class="text-[11px] text-gray-400">${h1Wins}/${h1Trades.length} ganados</p>
+                </div>
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500">Impulso 15M</p>
+                    <p class="text-lg font-extrabold mt-1">${m15Trades.length > 0 ? ((m15Wins/m15Trades.length)*100).toFixed(0) : 0}% Win Rate</p>
+                    <p class="text-[11px] text-gray-400">${m15Wins}/${m15Trades.length} ganados</p>
+                </div>
+            `;
+
+            // 8. Rendimiento por Tipo de Zona
+            const zones = ['IFVG', 'FVG', 'OB', 'General'];
+            const zoneContainer = document.getElementById('stat-zone-breakdown');
+            zoneContainer.innerHTML = '';
+            zones.forEach(z => {
+                const zTrades = closedTrades.filter(t => t.zoneType === z);
+                const zRR = zTrades.reduce((acc, t) => acc + (t.rr || 0), 0).toFixed(1);
+                zoneContainer.innerHTML += `
+                    <div class="flex items-center justify-between text-xs p-2 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                        <span class="font-semibold">${z} (${zTrades.length} trades)</span>
+                        <span class="font-extrabold ${zRR >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500'}">${zRR > 0 ? '+' : ''}${zRR} R</span>
+                    </div>
+                `;
+            });
+
+            // 9. Reentradas vs Primeras Entradas
+            const reentries = closedTrades.filter(t => t.isReentry);
+            const firstEntries = closedTrades.filter(t => !t.isReentry);
+            const reWin = reentries.filter(t => t.outcome === 'TP').length;
+            const firstWin = firstEntries.filter(t => t.outcome === 'TP').length;
+
+            document.getElementById('stat-reentry-breakdown').innerHTML = `
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500">1ª Entrada</p>
+                    <p class="text-lg font-extrabold mt-1">${firstEntries.length > 0 ? ((firstWin/firstEntries.length)*100).toFixed(0) : 0}% Win Rate</p>
+                    <p class="text-[11px] text-gray-400">${firstWin}/${firstEntries.length} ganados</p>
+                </div>
+                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500">Reentradas</p>
+                    <p class="text-lg font-extrabold mt-1">${reentries.length > 0 ? ((reWin/reentries.length)*100).toFixed(0) : 0}% Win Rate</p>
+                    <p class="text-[11px] text-gray-400">${reWin}/${reentries.length} ganados</p>
+                </div>
+            `;
+
+            // 10. Rachas Máximas
+            let maxWinStreak = 0, currentWins = 0;
+            let maxLossStreak = 0, currentLosses = 0;
+
+            closedTrades.slice().reverse().forEach(t => {
+                if (t.outcome === 'TP') {
+                    currentWins++;
+                    currentLosses = 0;
+                    if (currentWins > maxWinStreak) maxWinStreak = currentWins;
+                } else if (t.outcome === 'SL') {
+                    currentLosses++;
+                    currentWins = 0;
+                    if (currentLosses > maxLossStreak) maxLossStreak = currentLosses;
+                } else {
+                    currentWins = 0;
+                    currentLosses = 0;
+                }
+            });
+
+            document.getElementById('stat-max-win-streak').textContent = `${maxWinStreak} Seguidos`;
+            document.getElementById('stat-max-loss-streak').textContent = `${maxLossStreak} Seguidos`;
+
+            // Listado de Notas Emocionales
+            const notesContainer = document.getElementById('stat-emotional-log');
+            notesContainer.innerHTML = '';
+            const tradesWithNotes = trades.filter(t => t.emotionalNotes || t.postNotes);
+
+            if (tradesWithNotes.length === 0) {
+                notesContainer.innerHTML = '<p class="text-xs text-gray-400">Sin notas registradas todavía.</p>';
+            } else {
+                tradesWithNotes.slice(0, 8).forEach(t => {
+                    notesContainer.innerHTML += `
+                        <div class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-800 text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-green-600 dark:text-green-400">${t.pair} (${t.direction})</span>
+                                <span class="text-gray-400 text-[10px]">${t.dateTime.replace('T', ' ')}</span>
+                            </div>
+                            ${t.emotionalNotes ? `<p><strong class="text-gray-500">Pre-Trade:</strong> ${t.emotionalNotes}</p>` : ''}
+                            ${t.postNotes ? `<p><strong class="text-gray-500">Post-Trade:</strong> ${t.postNotes}</p>` : ''}
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function renderProgressBar(label, count, total, colorClass) {
+            const pct = total > 0 ? ((count / total) * 100).toFixed(0) : 0;
+            return `
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-600 dark:text-gray-400">${label} (${count})</span>
+                        <span class="font-bold">${pct}%</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="h-full ${colorClass}" style="width: ${pct}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- HERRAMIENTAS Y HERRAMIENTAS DE DATOS ---
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function seedDemoData() {
+            if (confirm('¿Cargar 5 operaciones de prueba? Esto agregará trades a tu historial.')) {
+                const demoTrades = [
+                    {
+                        id: 'demo_1', pair: 'EURUSD', direction: 'BUY', dateTime: '2026-10-10T09:30',
+                        impulseTF: '1H', zoneType: 'IFVG', confirmationTF: '5M', confirmationType: 'CHoCH / MSS',
+                        isReentry: false, respectedNews: true, followedPlan: true, mentalCalm: true,
+                        emotionalNotes: 'Alineado con Bias alcista diario.', status: 'CLOSED', outcome: 'TP',
+                        rr: 3.0, pips: 30, slMoved: false, postNotes: 'Excelente ejecución sin acelerar el SL.'
+                    },
+                    {
+                        id: 'demo_2', pair: 'GBPUSD', direction: 'SELL', dateTime: '2026-10-10T14:15',
+                        impulseTF: '15M', zoneType: 'FVG', confirmationTF: '1M', confirmationType: 'Liquidity Sweep',
+                        isReentry: false, respectedNews: true, followedPlan: true, mentalCalm: true,
+                        emotionalNotes: 'Ligeramente apresurado.', status: 'CLOSED', outcome: 'SL',
+                        rr: -1.0, pips: -12, slMoved: false, postNotes: 'El mercado barren la zona antes de caer.'
+                    },
+                    {
+                        id: 'demo_3', pair: 'GBPUSD', direction: 'SELL', dateTime: '2026-10-10T14:30',
+                        impulseTF: '15M', zoneType: 'IFVG', confirmationTF: '1M', confirmationType: 'CHoCH / MSS',
+                        isReentry: true, respectedNews: true, followedPlan: true, mentalCalm: true,
+                        emotionalNotes: 'Reentrada disciplinada tras el barrido.', status: 'CLOSED', outcome: 'TP',
+                        rr: 2.5, pips: 28, slMoved: false, postNotes: 'Reentrada impecable.'
+                    },
+                    {
+                        id: 'demo_4', pair: 'XAUUSD', direction: 'BUY', dateTime: '2026-10-11T08:00',
+                        impulseTF: '1H', zoneType: 'OB', confirmationTF: '5M', confirmationType: 'Breaker Block',
+                        isReentry: false, respectedNews: true, followedPlan: true, mentalCalm: false,
+                        emotionalNotes: 'FOMO leve por mover el precio muy rápido.', status: 'CLOSED', outcome: 'MANUAL',
+                        rr: 1.2, pips: 40, slMoved: true, postNotes: 'Moví SL a BE temprano y cerré manualmente.'
+                    },
+                    {
+                        id: 'demo_5', pair: 'USDJPY', direction: 'BUY', dateTime: '2026-10-11T11:00',
+                        impulseTF: '1H', zoneType: 'FVG', confirmationTF: '5M', confirmationType: 'CHoCH / MSS',
+                        isReentry: false, respectedNews: true, followedPlan: true, mentalCalm: true,
+                        emotionalNotes: 'Esperando el retest de la zona.', status: 'PENDING', outcome: null,
+                        rr: null, pips: null, slMoved: false, postNotes: ''
+                    }
+                ];
+
+                trades = [...demoTrades, ...trades];
+                saveTrades();
+                closeSettingsModal();
+                renderTrades();
+                renderStats();
+                alert('¡Datos de prueba cargados correctamente!');
+            }
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(trades, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `fx_journal_backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function exportCSV() {
+            if (trades.length === 0) {
+                alert('No hay operaciones para exportar.');
+                return;
+            }
+
+            const headers = ["ID", "Par", "Direccion", "FechaHora", "ImpulsoTF", "Zona", "ConfirmacionTF", "TipoConfirmacion", "Reentrada", "Estado", "Resultado", "RR", "Pips", "SLMovido", "NotasEmocionales", "NotasPost"];
+            const rows = trades.map(t => [
+                t.id, t.pair, t.direction, t.dateTime, t.impulseTF, t.zoneType, t.confirmationTF, t.confirmationType,
+                t.isReentry ? "SI" : "NO", t.status, t.outcome || "-", t.rr || 0, t.pips || 0, t.slMoved ? "SI" : "NO",
+                `"${(t.emotionalNotes || '').replace(/"/g, '""')}"`, `"${(t.postNotes || '').replace(/"/g, '""')}"`
+            ]);
+
+            const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `fx_journal_export_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
+
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        trades = imported;
+                        saveTrades();
+                        renderTrades();
+                        renderStats();
+                        closeSettingsModal();
+                        alert('¡Datos importados con éxito!');
+                    } else {
+                        alert('El archivo JSON no tiene un formato válido.');
+                    }
+                } catch(err) {
+                    alert('Error al leer el archivo JSON.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ ¿ATENCIÓN: Estás seguro de que deseas eliminar TODOS los datos de tu bitácora? Esta acción no se puede deshacer.')) {
+                trades = [];
+                localStorage.removeItem(STORAGE_KEY);
+                renderTrades();
+                renderStats();
+                closeSettingsModal();
+                alert('Todos los datos han sido borrados.');
+            }
+        }
+    </script>
+</body>
+</html>
