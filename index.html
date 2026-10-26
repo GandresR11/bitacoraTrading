@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FX Journal Pro - Institutional Trading Assistant & Discipline Core</title>
+    <title>FX Journal Pro - Institutional Trading Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,9 +11,9 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#080c14',
-                        cardBg: '#0f172a',
-                        cardHover: '#1e293b',
+                        darkBg: '#070b14',
+                        cardBg: '#0e1626',
+                        cardHover: '#17223b',
                         accentGreen: '#10b981',
                         accentRed: '#ef4444',
                         accentBlue: '#3b82f6',
@@ -25,51 +25,60 @@
         }
     </script>
 </head>
-<body class="bg-darkBg text-slate-100 font-sans min-h-screen flex flex-col selection:bg-accentBlue selection:text-white">
+<body class="bg-darkBg text-slate-100 font-sans min-h-screen flex flex-col pb-24 selection:bg-accentBlue selection:text-white">
 
-    <!-- TOP MANIFESTO DE REGLAS Y FLUJO INSTITUCIONAL -->
-    <header class="bg-cardBg border-b border-slate-800 px-6 py-3 shadow-lg sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-3">
+    <!-- HEADER: MANIFIESTO DE REGLAS (NO FIJO / SCROLLABLE) -->
+    <header class="bg-cardBg border-b border-slate-800/80 px-6 py-6 shadow-xl">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <span class="inline-block w-3 h-3 bg-accentGreen rounded-full animate-ping"></span>
-                <h1 class="text-lg font-black tracking-wider text-white">FX JOURNAL <span class="text-accentBlue">PRO</span></h1>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-900/30">
+                    <span class="text-white font-black text-lg">FX</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-wider text-white">FX JOURNAL <span class="text-accentBlue">PRO</span></h1>
+                    <p class="text-xs text-slate-400">Sistema Operativo Cuantitativo & Disciplina Institucional</p>
+                </div>
             </div>
-            <!-- Manifiesto de Flujo & Reglas -->
-            <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
-                <span class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">⚡ <strong class="text-accentBlue">Flujo:</strong> Impulso ➔ Zona ➔ Reacción ➔ Confirmación</span>
-                <span class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">🎯 <strong class="text-accentGreen">Riesgo:</strong> 0.5% - 1%</span>
-                <span class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">🛑 <strong class="text-accentRed">Límite SL:</strong> Máx 4/día</span>
-                <span class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300">🔄 <strong class="text-accentAmber">Reentrada:</strong> 1 sola vez por CHoCh</span>
+            
+            <!-- Manifiesto Visual Elegante -->
+            <div class="flex flex-wrap gap-2 text-xs font-medium">
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/60 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-accentBlue"></span>
+                    <span class="text-slate-300">Flujo: <strong class="text-white">Impulso ➔ Zona ➔ Reacción</strong></span>
+                </div>
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/60 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-accentGreen"></span>
+                    <span class="text-slate-300">Riesgo: <strong class="text-accentGreen">0.5% - 1%</strong></span>
+                </div>
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/60 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-accentRed"></span>
+                    <span class="text-slate-300">Límite SL: <strong class="text-accentRed">Máx 4/día</strong></span>
+                </div>
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-700/60 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-accentAmber"></span>
+                    <span class="text-slate-300">Reentrada: <strong class="text-accentAmber">1 vez (CHoCh)</strong></span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- NAVEGACIÓN POR PESTAÑAS (TABS) -->
-    <nav class="bg-slate-900/80 border-b border-slate-800 px-6 py-2">
-        <div class="max-w-7xl mx-auto flex space-x-2 overflow-x-auto">
-            <button onclick="switchTab('analysis')" id="tabBtn-analysis" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-md">1. Análisis & Zonas</button>
-            <button onclick="switchTab('execution')" id="tabBtn-execution" class="px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">2. Ejecución de Orden</button>
-            <button onclick="switchTab('history')" id="tabBtn-history" class="px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">3. Historial & Filtros</button>
-            <button onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">4. Dashboard Cuantitativo</button>
-        </div>
-    </nav>
-
     <!-- MAIN CONTAINER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 space-y-6">
 
-        <!-- PESTAÑA 1: ANÁLISIS Y ZONAS -->
+        <!-- PESTAÑA 1: REGISTRO DE ZONAS (ANÁLISIS) -->
         <section id="tab-analysis" class="space-y-6">
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <div class="border-b border-slate-800 pb-3 mb-4">
-                    <h2 class="text-xl font-bold text-white">Paso 1: Identificación de Impulso y Mapeo de Zonas</h2>
-                    <p class="text-xs text-slate-400">Selecciona el par, el impulso detectado y marca las zonas estructurales disponibles.</p>
+            <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md">
+                <div class="border-b border-slate-800 pb-4 mb-6">
+                    <span class="text-xs font-bold text-accentBlue uppercase tracking-widest">Paso 1 del Sistema</span>
+                    <h2 class="text-2xl font-black text-white mt-1">Registro de Zonas & Mapeo Fractal</h2>
+                    <p class="text-xs text-slate-400 mt-1">Define el par, el impulso detectado y las zonas estructurales disponibles (OB, FVG o Zona de Decisión).</p>
                 </div>
 
-                <form id="analysisForm" onsubmit="saveAnalysis(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <form id="analysisForm" onsubmit="saveAnalysis(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Par Forex</label>
-                            <select id="anPair" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Par Forex</label>
+                            <select id="anPair" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="EUR/USD">EUR/USD</option>
                                 <option value="GBP/USD">GBP/USD</option>
                                 <option value="USD/CAD">USD/CAD</option>
@@ -78,94 +87,95 @@
                             </select>
                         </div>
                         <div id="customPairContainer" class="hidden">
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Nombre del Par</label>
-                            <input type="text" id="anCustomPair" placeholder="Ej: AUD/USD" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 font-mono">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Nombre del Par Opcional</label>
+                            <input type="text" id="anCustomPair" placeholder="Ej: AUD/USD" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 font-mono">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Impulso Detectado en Temporalidad:</label>
-                            <select id="anImpulseTF" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Impulso Detectado en Temporalidad:</label>
+                            <select id="anImpulseTF" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="1H (Cascada a 30M/15M)">1H (Cascada a 30M/15M)</option>
                                 <option value="15M (Cascada a 5M/1M)">15M (Cascada a 5M/1M)</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Selección flexible de Zonas -->
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-3">
-                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Zonas Identificadas en el Mapeo (Puedes marcar una o varias):</label>
+                    <!-- Zonas Flexibles -->
+                    <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <label class="block text-xs font-bold text-slate-200 uppercase tracking-wider">Zonas Identificadas (Selecciona una o varias):</label>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <label class="flex items-center space-x-3 bg-slate-900 p-3 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-700 transition">
+                            <label class="flex items-center space-x-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-600 transition">
                                 <input type="checkbox" id="chkOB" value="Order Block (OB)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-medium">Order Block (OB)</span>
+                                <span class="text-sm font-semibold text-slate-200">Order Block (OB)</span>
                             </label>
-                            <label class="flex items-center space-x-3 bg-slate-900 p-3 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-700 transition">
+                            <label class="flex items-center space-x-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-600 transition">
                                 <input type="checkbox" id="chkFVG" value="Fair Value Gap (FVG)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-medium">Fair Value Gap (FVG)</span>
+                                <span class="text-sm font-semibold text-slate-200">Fair Value Gap (FVG)</span>
                             </label>
-                            <label class="flex items-center space-x-3 bg-slate-900 p-3 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-700 transition">
+                            <label class="flex items-center space-x-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-600 transition">
                                 <input type="checkbox" id="chkDecision" value="Zona de Decisión (Vela de Mechas)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-medium text-accentBlue">Zona de Decisión (Mechas)</span>
+                                <span class="text-sm font-semibold text-accentBlue">Zona de Decisión (Mechas)</span>
                             </label>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Notas del Análisis / Rango de Precios</label>
-                        <input type="text" id="anNotes" placeholder="Ej: Rango clave 1.08500 - 1.08650, fuerte confluencia con liquidez previa." required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 font-mono">
+                        <label class="block text-xs font-bold text-slate-300 mb-2">Notas del Mapeo / Rango de Precios</label>
+                        <input type="text" id="anNotes" placeholder="Ej: Rango clave 1.08500 - 1.08650, confluencia con liquidez previa." required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 font-mono">
                     </div>
 
-                    <div class="flex justify-end pt-2">
-                        <button type="submit" class="bg-accentBlue hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition shadow-lg">
-                            Guardar Análisis Base 📌
+                    <div class="flex justify-end pt-3">
+                        <button type="submit" class="bg-accentBlue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-2xl text-sm transition shadow-lg shadow-blue-600/20">
+                            Guardar Análisis & Continuar ➔
                         </button>
                     </div>
                 </form>
             </div>
         </section>
 
-        <!-- PESTAÑA 2: EJECUCIÓN DE ORDEN -->
+        <!-- PESTAÑA 2: REGISTRO DE OPERACIÓN -->
         <section id="tab-execution" class="hidden space-y-6">
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <div class="border-b border-slate-800 pb-3 mb-4">
-                    <h2 class="text-xl font-bold text-white">Paso 2: Ejecución y Confirmación de Entrada</h2>
-                    <p class="text-xs text-slate-400">Selecciona el análisis previo, la zona específica de reacción y la modalidad de entrada.</p>
+            <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md">
+                <div class="border-b border-slate-800 pb-4 mb-6">
+                    <span class="text-xs font-bold text-accentGreen uppercase tracking-widest">Paso 2 del Sistema</span>
+                    <h2 class="text-2xl font-black text-white mt-1">Registro de Operación & Gatillo</h2>
+                    <p class="text-xs text-slate-400 mt-1">Vincula tu orden al análisis previo, selecciona la zona específica de reacción y el tipo de confirmación.</p>
                 </div>
 
-                <form id="tradeForm" onsubmit="saveTrade(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form id="tradeForm" onsubmit="saveTrade(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Vincular a Análisis Previo</label>
-                            <select id="trAnalysisRef" onchange="populateAvailableZones()" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Vincular a Análisis Previo</label>
+                            <select id="trAnalysisRef" onchange="populateAvailableZones()" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="">-- Selecciona Análisis Activo --</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Zona Específica de Reacción</label>
-                            <select id="trSpecificZone" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Zona Específica de Reacción</label>
+                            <select id="trSpecificZone" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="">-- Primero selecciona un análisis --</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Modalidad de Ejecución</label>
-                            <select id="trExecutionType" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Modalidad de Ejecución</label>
+                            <select id="trExecutionType" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="Orden Pendiente (Limit/Stop)">Orden Pendiente (Limit / Stop)</option>
                                 <option value="Entrada a Mercado">Entrada a Mercado</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Confirmador / Razón de Entrada</label>
-                            <select id="trConfirmator" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Confirmador / Razón de Entrada</label>
+                            <select id="trConfirmator" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="Reacción Directa en Zona de Decisión">Reacción Directa en Zona de Decisión</option>
                                 <option value="Reacción en OB/FVG + Confirmación M5/M1">Reacción en OB/FVG + Confirmación M5/M1</option>
                                 <option value="Reentrada Única por CHoCh (M5/M1)">Reentrada Única por CHoCh (M5/M1)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Resultado del Trade</label>
-                            <select id="trResult" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Resultado Inicial</label>
+                            <select id="trResult" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="OPEN">Abierto / En Curso</option>
                                 <option value="WIN">+3R (Take Profit Alcanzado)</option>
                                 <option value="PARTIAL">+1.5R (Parciales + Break Even)</option>
@@ -174,8 +184,8 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-end pt-2">
-                        <button type="submit" class="bg-accentGreen hover:bg-emerald-600 text-slate-950 font-extrabold py-2.5 px-6 rounded-xl text-sm transition shadow-lg">
+                    <div class="flex justify-end pt-3">
+                        <button type="submit" class="bg-accentGreen hover:bg-emerald-600 text-slate-950 font-black py-3 px-8 rounded-2xl text-sm transition shadow-lg shadow-emerald-600/20">
                             Registrar Operación 🚀
                         </button>
                     </div>
@@ -183,24 +193,24 @@
             </div>
         </section>
 
-        <!-- PESTAÑA 3: HISTORIAL Y FILTROS -->
+        <!-- PESTAÑA 3: LISTA DE OPERACIONES Y FILTROS -->
         <section id="tab-history" class="hidden space-y-6">
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-3">
+            <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md space-y-5">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
                     <div>
-                        <h2 class="text-xl font-bold text-white">Historial de Ejecuciones & Filtros Avanzados</h2>
-                        <p class="text-xs text-slate-400">Filtra tus trades por par, zona o resultado para auditoría detallada.</p>
+                        <h2 class="text-2xl font-black text-white">Lista de Operaciones & Filtros</h2>
+                        <p class="text-xs text-slate-400 mt-1">Audita el historial de ejecuciones y edita resultados en tiempo real.</p>
                     </div>
                     <!-- Filtros -->
                     <div class="flex flex-wrap gap-2">
-                        <select id="filterPair" onchange="filterTrades()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-200">
+                        <select id="filterPair" onchange="filterTrades()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
                             <option value="ALL">Todos los Pares</option>
                             <option value="EUR/USD">EUR/USD</option>
                             <option value="GBP/USD">GBP/USD</option>
                             <option value="USD/CAD">USD/CAD</option>
                             <option value="USD/CHF">USD/CHF</option>
                         </select>
-                        <select id="filterResult" onchange="filterTrades()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-200">
+                        <select id="filterResult" onchange="filterTrades()" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
                             <option value="ALL">Todos los Resultados</option>
                             <option value="WIN">Win (+3R)</option>
                             <option value="PARTIAL">Parcial (+1.5R)</option>
@@ -214,15 +224,15 @@
                     <table class="w-full text-left text-sm text-slate-300">
                         <thead class="bg-slate-900 text-xs uppercase text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="px-4 py-3">Fecha</th>
-                                <th class="px-4 py-3">Par</th>
-                                <th class="px-4 py-3">Zona Específica</th>
-                                <th class="px-4 py-3">Modalidad / Confirmador</th>
-                                <th class="px-4 py-3">Resultado</th>
-                                <th class="px-4 py-3 text-right">Acción</th>
+                                <th class="px-4 py-3.5">Fecha</th>
+                                <th class="px-4 py-3.5">Par</th>
+                                <th class="px-4 py-3.5">Zona</th>
+                                <th class="px-4 py-3.5">Modalidad / Confirmador</th>
+                                <th class="px-4 py-3.5">Resultado</th>
+                                <th class="px-4 py-3.5 text-right">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="tradesTableBody" class="divide-y divide-slate-800">
+                        <tbody id="tradesTableBody" class="divide-y divide-slate-800/80">
                             <!-- Poblado dinámicamente -->
                         </tbody>
                     </table>
@@ -232,38 +242,38 @@
 
         <!-- PESTAÑA 4: DASHBOARD CUANTITATIVO -->
         <section id="tab-dashboard" class="hidden space-y-6">
-            <div class="border-b border-slate-800 pb-2">
-                <h2 class="text-xl font-bold text-white">Dashboard Cuantitativo & Rendimiento por Zona</h2>
-                <p class="text-xs text-slate-400">Auditoría estadística de tu ventaja matemática (Edge) y disciplina de ejecución.</p>
+            <div class="border-b border-slate-800 pb-3">
+                <h2 class="text-2xl font-black text-white">Dashboard Cuantitativo & Rendimiento por Zona</h2>
+                <p class="text-xs text-slate-400 mt-1">Métricas de expectativa matemática y estadísticas de tus zonas operativas.</p>
             </div>
 
             <!-- Métricas Principales -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-cardBg p-5 rounded-2xl border border-slate-800">
+                <div class="bg-cardBg p-5 rounded-3xl border border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-400">Win Rate Efectivo Global</p>
                     <h3 id="dashWinRate" class="text-3xl font-black text-accentGreen mt-1">0%</h3>
-                    <p id="dashWinRateSub" class="text-xs text-slate-500 mt-1">0 TP / 0 Trades</p>
+                    <p id="dashWinRateSub" class="text-xs text-slate-500 mt-1">0 TP / 0 Cerrados</p>
                 </div>
-                <div class="bg-cardBg p-5 rounded-2xl border border-slate-800">
+                <div class="bg-cardBg p-5 rounded-3xl border border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-400">Expectativa Total (R Acumulado)</p>
                     <h3 id="dashTotalR" class="text-3xl font-black text-accentBlue mt-1">0.0 R</h3>
                     <p class="text-xs text-slate-500 mt-1">Rendimiento neto en R</p>
                 </div>
-                <div class="bg-cardBg p-5 rounded-2xl border border-slate-800">
+                <div class="bg-cardBg p-5 rounded-3xl border border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-400">Profit Factor</p>
                     <h3 id="dashProfitFactor" class="text-3xl font-black text-white mt-1">0.00</h3>
-                    <p class="text-xs text-slate-500 mt-1">Ganancias / Pérdidas</p>
+                    <p class="text-xs text-slate-500 mt-1">Ganancia / Pérdida</p>
                 </div>
-                <div class="bg-cardBg p-5 rounded-2xl border border-slate-800">
+                <div class="bg-cardBg p-5 rounded-3xl border border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-400">Total Operaciones</p>
                     <h3 id="dashTotalTrades" class="text-3xl font-black text-accentPurple mt-1">0</h3>
                     <p class="text-xs text-slate-500 mt-1">Historial auditado</p>
                 </div>
             </div>
 
-            <!-- DESGLOSE POR ZONAS (NUEVO) -->
+            <!-- DESGLOSE POR ZONAS -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 space-y-3">
+                <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
                     <span class="text-xs font-bold text-accentBlue uppercase tracking-wider">Zona de Decisión (Mechas)</span>
                     <h3 class="font-bold text-white text-base">Rendimiento Directo</h3>
                     <div class="flex justify-between text-sm pt-2 border-t border-slate-800">
@@ -276,7 +286,7 @@
                     </div>
                 </div>
 
-                <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 space-y-3">
+                <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
                     <span class="text-xs font-bold text-accentPurple uppercase tracking-wider">Order Block (OB)</span>
                     <h3 class="font-bold text-white text-base">Rendimiento Directo</h3>
                     <div class="flex justify-between text-sm pt-2 border-t border-slate-800">
@@ -289,7 +299,7 @@
                     </div>
                 </div>
 
-                <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 space-y-3">
+                <div class="bg-cardBg border border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
                     <span class="text-xs font-bold text-accentAmber uppercase tracking-wider">Fair Value Gap (FVG)</span>
                     <h3 class="font-bold text-white text-base">Rendimiento Directo</h3>
                     <div class="flex justify-between text-sm pt-2 border-t border-slate-800">
@@ -305,20 +315,60 @@
         </section>
     </main>
 
-    <!-- SCRIPT DE LÓGICA Y GESTIÓN DE PESTAÑAS -->
+    <!-- MENÚ DE NAVEGACIÓN INFERIOR FIJO (BOTTOM NAVIGATION BAR) -->
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-slate-700/80 backdrop-blur-xl px-3 py-2 rounded-2xl shadow-2xl z-50 flex items-center space-x-1 md:space-x-2">
+        <button onclick="switchTab('analysis')" id="tabBtn-analysis" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30">
+            <span>🗺️</span>
+            <span class="hidden md:inline">Zonas</span>
+        </button>
+        <button onclick="switchTab('execution')" id="tabBtn-execution" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <span>⚡</span>
+            <span class="hidden md:inline">Operación</span>
+        </button>
+        <button onclick="switchTab('history')" id="tabBtn-history" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <span>📋</span>
+            <span class="hidden md:inline">Lista</span>
+        </button>
+        <button onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <span>📊</span>
+            <span class="hidden md:inline">Dashboard</span>
+        </button>
+    </nav>
+
+    <!-- MODAL DE EDICIÓN DE RESULTADO -->
+    <div id="editModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-slate-800 rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 class="text-lg font-bold text-white">Editar Resultado del Trade</h3>
+            <p class="text-xs text-slate-400">Actualiza el resultado final de la ejecución para auditoría cuantitativa.</p>
+            <input type="hidden" id="editTradeId">
+            <select id="editTradeResult" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-accentBlue">
+                <option value="OPEN">Abierto / En Curso</option>
+                <option value="WIN">+3R (Take Profit Alcanzado)</option>
+                <option value="PARTIAL">+1.5R (Parciales + Break Even)</option>
+                <option value="LOSS">-1R (Stop Loss Tocado)</option>
+            </select>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeEditModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold transition">Cancelar</button>
+                <button onclick="saveEditedTrade()" class="bg-accentBlue hover:bg-blue-600 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-md">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE LÓGICA Y ESTADÍSTICAS -->
     <script>
-        let analyses = JSON.parse(localStorage.getItem('fx_analyses_v2')) || [];
-        let trades = JSON.parse(localStorage.getItem('fx_trades_v2')) || [];
+        let analyses = JSON.parse(localStorage.getItem('fx_analyses_v3')) || [];
+        let trades = JSON.parse(localStorage.getItem('fx_trades_v3')) || [];
 
         // Sistema de Pestañas (Tabs)
         function switchTab(tabId) {
             const tabs = ['analysis', 'execution', 'history', 'dashboard'];
             tabs.forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800";
+                document.getElementById(`tabBtn-${t}`).className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white hover:bg-slate-800";
             });
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tabId}`).className = "px-4 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-md";
+            document.getElementById(`tabBtn-${tabId}`).className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Toggle custom pair input
@@ -340,7 +390,6 @@
                 pair = document.getElementById('anCustomPair').value.toUpperCase();
             }
 
-            // Recoger zonas marcadas
             let selectedZones = [];
             if(document.getElementById('chkOB').checked) selectedZones.push('Order Block (OB)');
             if(document.getElementById('chkFVG').checked) selectedZones.push('Fair Value Gap (FVG)');
@@ -361,11 +410,11 @@
             };
 
             analyses.push(analysis);
-            localStorage.setItem('fx_analyses_v2', JSON.stringify(analyses));
+            localStorage.setItem('fx_analyses_v3', JSON.stringify(analyses));
             document.getElementById('analysisForm').reset();
             document.getElementById('customPairContainer').classList.add('hidden');
             updateUI();
-            alert('Análisis base guardado correctamente. Ya puedes ir a la pestaña de Ejecución.');
+            alert('Análisis base guardado correctamente.');
             switchTab('execution');
         }
 
@@ -399,7 +448,7 @@
             };
 
             trades.push(trade);
-            localStorage.setItem('fx_trades_v2', JSON.stringify(trades));
+            localStorage.setItem('fx_trades_v3', JSON.stringify(trades));
             document.getElementById('tradeForm').reset();
             document.getElementById('trSpecificZone').innerHTML = '<option value="">-- Primero selecciona un análisis --</option>';
             updateUI();
@@ -408,13 +457,41 @@
         }
 
         function deleteTrade(id) {
-            trades = trades.filter(t => t.id !== id);
-            localStorage.setItem('fx_trades_v2', JSON.stringify(trades));
-            updateUI();
+            if(confirm('¿Estás seguro de eliminar este registro?')) {
+                trades = trades.filter(t => t.id !== id);
+                localStorage.setItem('fx_trades_v3', JSON.stringify(trades));
+                updateUI();
+            }
+        }
+
+        // Modal de edición de resultado
+        function openEditModal(id) {
+            const trade = trades.find(t => t.id === id);
+            if(trade) {
+                document.getElementById('editTradeId').value = trade.id;
+                document.getElementById('editTradeResult').value = trade.result;
+                document.getElementById('editModal').classList.remove('hidden');
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        function saveEditedTrade() {
+            const id = document.getElementById('editTradeId').value;
+            const newResult = document.getElementById('editTradeResult').value;
+            
+            const trade = trades.find(t => t.id === id);
+            if(trade) {
+                trade.result = newResult;
+                localStorage.setItem('fx_trades_v3', JSON.stringify(trades));
+                closeEditModal();
+                updateUI();
+            }
         }
 
         function updateUI() {
-            // Populate analysis select in execution form
             const select = document.getElementById('trAnalysisRef');
             select.innerHTML = '<option value="">-- Selecciona Análisis Activo --</option>';
             analyses.forEach(a => {
@@ -451,16 +528,17 @@
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-900/40 transition">
-                        <td class="px-4 py-3 text-xs text-slate-400 font-mono">${t.date}</td>
-                        <td class="px-4 py-3 font-black text-white">${t.pair}</td>
-                        <td class="px-4 py-3 text-xs font-semibold text-accentBlue">${t.specificZone}</td>
-                        <td class="px-4 py-3 text-xs">
+                        <td class="px-4 py-3.5 text-xs text-slate-400 font-mono">${t.date}</td>
+                        <td class="px-4 py-3.5 font-black text-white">${t.pair}</td>
+                        <td class="px-4 py-3.5 text-xs font-semibold text-accentBlue">${t.specificZone}</td>
+                        <td class="px-4 py-3.5 text-xs">
                             <span class="block font-medium">${t.executionType}</span>
                             <span class="text-slate-500">${t.confirmator}</span>
                         </td>
-                        <td class="px-4 py-3"><span class="px-2.5 py-1 rounded-lg text-xs font-bold ${badgeColor}">${t.result}</span></td>
-                        <td class="px-4 py-3 text-right">
-                            <button onclick="deleteTrade('${t.id}')" class="text-red-400 hover:text-red-300 text-xs font-medium bg-red-950/40 px-2.5 py-1 rounded border border-red-900 transition">Eliminar</button>
+                        <td class="px-4 py-3.5"><span class="px-2.5 py-1 rounded-lg text-xs font-bold ${badgeColor}">${t.result}</span></td>
+                        <td class="px-4 py-3.5 text-right space-x-1">
+                            <button onclick="openEditModal('${t.id}')" class="text-blue-400 hover:text-blue-300 text-xs font-medium bg-blue-950/40 px-2.5 py-1.5 rounded-lg border border-blue-900 transition">Editar</button>
+                            <button onclick="deleteTrade('${t.id}')" class="text-red-400 hover:text-red-300 text-xs font-medium bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-900 transition">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -490,7 +568,6 @@
             document.getElementById('dashProfitFactor').innerText = profitFactor;
             document.getElementById('dashTotalTrades').innerText = trades.length;
 
-            // Breakdown by Zones
             calcZoneMetrics("Zona de Decisión (Vela de Mechas)", 'zone1WinRate', 'zone1TotalR');
             calcZoneMetrics("Order Block (OB)", 'zone2WinRate', 'zone2TotalR');
             calcZoneMetrics("Fair Value Gap (FVG)", 'zone3WinRate', 'zone3TotalR');
