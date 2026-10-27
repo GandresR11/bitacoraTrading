@@ -63,11 +63,11 @@
                 <div class="border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
                     <span class="text-xs font-bold text-accentBlue uppercase tracking-widest">Paso 1 del Sistema</span>
                     <h2 class="text-2xl font-black text-slate-900 dark:text-white mt-1">Registro de Zonas & Mapeo Fractal</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Define el par, el impulso detectado y las zonas estructurales. Limpia tus análisis vencidos cuando el precio ya haya invalidado la estructura.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Valida el rompimiento estructural y genera las combinaciones exactas de zonas para la ejecución.</p>
                 </div>
 
                 <form id="analysisForm" onsubmit="saveAnalysis(event)" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Par Forex</label>
                             <select id="anPair" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
@@ -83,56 +83,63 @@
                             <input type="text" id="anCustomPair" placeholder="Ej: AUD/USD" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 font-mono">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Impulso Detectado en Temporalidad:</label>
-                            <select id="anImpulseTF" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
-                                <option value="1H (Cascada a 30M/15M)">1H (Cascada a 30M/15M)</option>
-                                <option value="15M (Cascada a 5M/1M)">15M (Cascada a 5M/1M)</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Impulso Detectado:</label>
+                            <select id="anImpulse" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="Impulso 1H">Impulso 1H</option>
+                                <option value="Impulso 30M">Impulso 30M</option>
+                                <option value="Impulso 15M">Impulso 15M</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">¿Cierre más allá del último mín/máx?</label>
+                            <select id="anBreak" onchange="checkBreakStatus()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="SI">Sí</option>
+                                <option value="NO">No</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Zonas Flexibles -->
+                    <!-- Zonas Múltiples -->
                     <div class="bg-slate-100 dark:bg-slate-900/80 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
-                        <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Zonas Identificadas (Selecciona una o varias):</label>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 transition">
-                                <input type="checkbox" id="chkOB" value="Order Block (OB)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Order Block (OB)</span>
+                        <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Zonas Identificadas (Selección Múltiple):</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 transition">
+                                <input type="checkbox" id="chkOB" value="OB" class="w-4 h-4 accent-accentBlue rounded">
+                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">OB</span>
                             </label>
-                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 transition">
-                                <input type="checkbox" id="chkFVG" value="Fair Value Gap (FVG)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">Fair Value Gap (FVG)</span>
+                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 transition">
+                                <input type="checkbox" id="chkFVG" value="FVG" class="w-4 h-4 accent-accentBlue rounded">
+                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">FVG</span>
                             </label>
-                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 dark:hover:border-slate-600 transition">
-                                <input type="checkbox" id="chkDecision" value="Zona de Decisión (Vela de Mechas)" class="w-4 h-4 accent-accentBlue rounded">
-                                <span class="text-sm font-semibold text-accentBlue">Zona de Decisión (Mechas)</span>
+                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 transition">
+                                <input type="checkbox" id="chkIFVG" value="iFVG" class="w-4 h-4 accent-accentBlue rounded">
+                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">iFVG</span>
+                            </label>
+                            <label class="flex items-center space-x-3 bg-white dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer hover:border-slate-400 transition">
+                                <input type="checkbox" id="chkDec" value="Vela Indecisión" class="w-4 h-4 accent-accentBlue rounded">
+                                <span class="text-sm font-semibold text-accentBlue">Vela Indecisión</span>
                             </label>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Notas del Mapeo / Rango de Precios</label>
-                        <input type="text" id="anNotes" placeholder="Ej: Rango clave 1.08500 - 1.08650, confluencia con liquidez previa." required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 font-mono">
-                    </div>
-
-                    <div class="flex justify-end pt-3">
-                        <button type="submit" class="bg-accentBlue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-2xl text-sm transition shadow-lg shadow-blue-600/20">
-                            Guardar Análisis & Continuar ➔
+                    <div class="flex flex-col items-end pt-3 space-y-2">
+                        <button type="submit" id="btnSaveAnalysis" class="bg-accentBlue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-2xl text-sm transition shadow-lg shadow-blue-600/20">
+                            Guardar Análisis & Generar Combinaciones ➔
                         </button>
+                        <p id="analysisErrorMsg" class="hidden text-xs text-red-400 font-bold">Impulso no válido porque no quebro min/max</p>
                     </div>
                 </form>
 
-                <!-- TABLA DE GESTIÓN Y ELIMINACIÓN DE ANÁLISIS VENCIDOS -->
+                <!-- TABLA DE GESTIÓN Y ELIMINACIÓN DE ZONAS -->
                 <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
-                    <h3 class="text-lg font-black text-slate-900 dark:text-white">Análisis Activos / Mapeos Guardados</h3>
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white">Combinaciones de Zonas Disponibles</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-slate-700 dark:text-slate-300">
                             <thead class="bg-slate-100 dark:bg-slate-900 text-xs uppercase text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
                                 <tr>
                                     <th class="px-4 py-3">Fecha</th>
                                     <th class="px-4 py-3">Par</th>
-                                    <th class="px-4 py-3">Zonas Mapeadas</th>
-                                    <th class="px-4 py-3">Detalle</th>
+                                    <th class="px-4 py-3">Zona Combinada Generada</th>
                                     <th class="px-4 py-3 text-right">Acción</th>
                                 </tr>
                             </thead>
@@ -151,48 +158,59 @@
                 <div class="border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
                     <span class="text-xs font-bold text-accentGreen uppercase tracking-widest">Paso 2 del Sistema</span>
                     <h2 class="text-2xl font-black text-slate-900 dark:text-white mt-1">Registro de Operación & Gatillo</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Vincula tu orden al análisis previo, selecciona la zona específica de reacción y el tipo de confirmación.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Selecciona la zona disponible del Paso 1, la modalidad de orden, confirmador, temporalidad y R:R.</p>
                 </div>
 
                 <form id="tradeForm" onsubmit="saveTrade(event)" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Vincular a Análisis Previo</label>
-                            <select id="trAnalysisRef" onchange="populateAvailableZones()" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
-                                <option value="">-- Selecciona Análisis Activo --</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Seleccionar Zona Combinada del Paso 1</label>
+                            <select id="trAnalysisRef" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="">-- Selecciona Zona Activa --</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Zona Específica de Reacción</label>
-                            <select id="trSpecificZone" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
-                                <option value="">-- Primero selecciona un análisis --</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Tipo de Orden</label>
+                            <select id="trExecutionType" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="Orden Pendiente">Orden Pendiente</option>
+                                <option value="Entrada a Mercado">Entrada a Mercado</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Modalidad de Ejecución</label>
-                            <select id="trExecutionType" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
-                                <option value="Orden Pendiente (Limit/Stop)">Orden Pendiente (Limit / Stop)</option>
-                                <option value="Entrada a Mercado">Entrada a Mercado</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Confirmador</label>
+                            <select id="trConfirmator" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="FVG">FVG</option>
+                                <option value="iFVG">iFVG</option>
+                                <option value="Engulfing / Vela de fuerza">Engulfing / Vela de fuerza</option>
+                                <option value="ChoCh">ChoCh</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Confirmador / Razón de Entrada</label>
-                            <select id="trConfirmator" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
-                                <option value="Reacción Directa en Zona de Decisión">Reacción Directa en Zona de Decisión</option>
-                                <option value="Reacción en OB/FVG + Confirmación M5/M1">Reacción en OB/FVG + Confirmación M5/M1</option>
-                                <option value="Reentrada Única por CHoCh (M5/M1)">Reentrada Única por CHoCh (M5/M1)</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Temporalidad</label>
+                            <select id="trTF" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="5M">5M</option>
+                                <option value="1M">1M</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Selección R:R</label>
+                            <select id="trRR" required class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                                <option value="1:2">1:2</option>
+                                <option value="1:3" selected>1:3</option>
+                                <option value="1:4">1:4</option>
+                                <option value="1:5">1:5</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Resultado Inicial</label>
                             <select id="trResult" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="OPEN">Abierto / En Curso</option>
-                                <option value="WIN">+3R (Take Profit Alcanzado)</option>
-                                <option value="PARTIAL">+1.5R (Parciales + Break Even)</option>
-                                <option value="LOSS">-1R (Stop Loss Tocado)</option>
+                                <option value="WIN">Win (TP Alcanzado)</option>
+                                <option value="PARTIAL">Parcial (+1.5R)</option>
+                                <option value="LOSS">Loss (-1R)</option>
                             </select>
                         </div>
                     </div>
@@ -225,9 +243,9 @@
                         </select>
                         <select id="filterResult" onchange="filterTrades()" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none">
                             <option value="ALL">Todos los Resultados</option>
-                            <option value="WIN">Win (+3R)</option>
-                            <option value="PARTIAL">Parcial (+1.5R)</option>
-                            <option value="LOSS">Loss (-1R)</option>
+                            <option value="WIN">Win</option>
+                            <option value="PARTIAL">Parcial</option>
+                            <option value="LOSS">Loss</option>
                             <option value="OPEN">Abierto</option>
                         </select>
                     </div>
@@ -239,8 +257,8 @@
                             <tr>
                                 <th class="px-4 py-3.5">Fecha</th>
                                 <th class="px-4 py-3.5">Par</th>
-                                <th class="px-4 py-3.5">Zona</th>
-                                <th class="px-4 py-3.5">Modalidad / Confirmador</th>
+                                <th class="px-4 py-3.5">Zona Combinada</th>
+                                <th class="px-4 py-3.5">Orden / Confirmador / TF / R:R</th>
                                 <th class="px-4 py-3.5">Resultado</th>
                                 <th class="px-4 py-3.5 text-right">Acciones</th>
                             </tr>
@@ -256,8 +274,8 @@
         <!-- PESTAÑA 4: DASHBOARD CUANTITATIVO -->
         <section id="tab-dashboard" class="hidden space-y-6">
             <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
-                <h2 class="text-2xl font-black text-slate-900 dark:text-white">Dashboard Cuantitativo & Rendimiento por Zona</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Métricas de expectativa matemática y estadísticas de tus zonas operativas.</p>
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white">Dashboard Cuantitativo & Rendimiento</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Métricas de expectativa matemática y estadísticas globales de trading.</p>
             </div>
 
             <!-- Métricas Principales -->
@@ -281,48 +299,6 @@
                     <p class="text-xs text-slate-500 dark:text-slate-400">Total Operaciones</p>
                     <h3 id="dashTotalTrades" class="text-3xl font-black text-accentPurple mt-1">0</h3>
                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Historial auditado</p>
-                </div>
-            </div>
-
-            <!-- DESGLOSE POR ZONAS -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
-                    <span class="text-xs font-bold text-accentBlue uppercase tracking-wider">Zona de Decisión (Mechas)</span>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-base">Rendimiento Directo</h3>
-                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <span class="text-slate-500 dark:text-slate-400">Win Rate:</span>
-                        <span id="zone1WinRate" class="font-bold text-accentGreen">0% (0/0)</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500 dark:text-slate-400">R Acumulado:</span>
-                        <span id="zone1TotalR" class="font-bold text-accentBlue">0.0 R</span>
-                    </div>
-                </div>
-
-                <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
-                    <span class="text-xs font-bold text-accentPurple uppercase tracking-wider">Order Block (OB)</span>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-base">Rendimiento Directo</h3>
-                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <span class="text-slate-500 dark:text-slate-400">Win Rate:</span>
-                        <span id="zone2WinRate" class="font-bold text-accentGreen">0% (0/0)</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500 dark:text-slate-400">R Acumulado:</span>
-                        <span id="zone2TotalR" class="font-bold text-accentBlue">0.0 R</span>
-                    </div>
-                </div>
-
-                <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 space-y-3 shadow-xl">
-                    <span class="text-xs font-bold text-accentAmber uppercase tracking-wider">Fair Value Gap (FVG)</span>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-base">Rendimiento Directo</h3>
-                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <span class="text-slate-500 dark:text-slate-400">Win Rate:</span>
-                        <span id="zone3WinRate" class="font-bold text-accentGreen">0% (0/0)</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-slate-500 dark:text-slate-400">R Acumulado:</span>
-                        <span id="zone3TotalR" class="font-bold text-accentBlue">0.0 R</span>
-                    </div>
                 </div>
             </div>
         </section>
@@ -356,9 +332,9 @@
             <input type="hidden" id="editTradeId">
             <select id="editTradeResult" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue">
                 <option value="OPEN">Abierto / En Curso</option>
-                <option value="WIN">+3R (Take Profit Alcanzado)</option>
-                <option value="PARTIAL">+1.5R (Parciales + Break Even)</option>
-                <option value="LOSS">-1R (Stop Loss Tocado)</option>
+                <option value="WIN">Win (TP Alcanzado)</option>
+                <option value="PARTIAL">Parcial (+1.5R)</option>
+                <option value="LOSS">Loss (-1R)</option>
             </select>
             <div class="flex justify-end space-x-3 pt-2">
                 <button onclick="closeEditModal()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold transition">Cancelar</button>
@@ -369,11 +345,10 @@
 
     <!-- SCRIPT DE LÓGICA Y ESTADÍSTICAS -->
     <script>
-        let analyses = JSON.parse(localStorage.getItem('fx_analyses_v4')) || [];
-        let trades = JSON.parse(localStorage.getItem('fx_trades_v4')) || [];
+        let analyses = JSON.parse(localStorage.getItem('fx_analyses_v5')) || [];
+        let trades = JSON.parse(localStorage.getItem('fx_trades_v5')) || [];
         let currentTheme = localStorage.getItem('fx_theme') || 'dark';
 
-        // Inicializar Tema
         if(currentTheme === 'light') {
             document.documentElement.classList.remove('dark');
             document.getElementById('themeIcon').innerText = '🌙';
@@ -398,7 +373,21 @@
             }
         }
 
-        // Sistema de Pestañas (Tabs)
+        function checkBreakStatus() {
+            const val = document.getElementById('anBreak').value;
+            const btn = document.getElementById('btnSaveAnalysis');
+            const msg = document.getElementById('analysisErrorMsg');
+            if(val === 'NO') {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                msg.classList.remove('hidden');
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                msg.classList.add('hidden');
+            }
+        }
+
         function switchTab(tabId) {
             const tabs = ['analysis', 'execution', 'history', 'dashboard'];
             tabs.forEach(t => {
@@ -410,7 +399,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Toggle custom pair input
         document.getElementById('anPair').addEventListener('change', (e) => {
             const customCont = document.getElementById('customPairContainer');
             if(e.target.value === 'CUSTOM') {
@@ -424,68 +412,63 @@
 
         function saveAnalysis(e) {
             e.preventDefault();
+            const breakStatus = document.getElementById('anBreak').value;
+            if(breakStatus === 'NO') return;
+
             let pair = document.getElementById('anPair').value;
             if(pair === 'CUSTOM') {
                 pair = document.getElementById('anCustomPair').value.toUpperCase();
             }
+            const impulse = document.getElementById('anImpulse').value;
 
             let selectedZones = [];
-            if(document.getElementById('chkOB').checked) selectedZones.push('Order Block (OB)');
-            if(document.getElementById('chkFVG').checked) selectedZones.push('Fair Value Gap (FVG)');
-            if(document.getElementById('chkDecision').checked) selectedZones.push('Zona de Decisión (Vela de Mechas)');
+            if(document.getElementById('chkOB').checked) selectedZones.push('OB');
+            if(document.getElementById('chkFVG').checked) selectedZones.push('FVG');
+            if(document.getElementById('chkIFVG').checked) selectedZones.push('iFVG');
+            if(document.getElementById('chkDec').checked) selectedZones.push('Vela Indecisión');
 
             if(selectedZones.length === 0) {
-                alert('⚠️ Debes seleccionar al menos una zona en el mapeo.');
+                alert('⚠️ Debes seleccionar al menos una zona.');
                 return;
             }
 
-            const analysis = {
-                id: 'ana_' + Date.now(),
-                pair: pair,
-                impulseTF: document.getElementById('anImpulseTF').value,
-                zones: selectedZones,
-                notes: document.getElementById('anNotes').value,
-                date: new Date().toLocaleDateString()
-            };
+            // Generar combinaciones separadas por cada zona seleccionada
+            selectedZones.forEach(zone => {
+                const combinedName = `${zone} de ${impulse}`;
+                const analysisItem = {
+                    id: 'ana_' + Date.now() + '_' + Math.random().toString(36.substr(2, 5)),
+                    pair: pair,
+                    combinedName: combinedName,
+                    date: new Date().toLocaleDateString()
+                };
+                analyses.push(analysisItem);
+            });
 
-            analyses.push(analysis);
-            localStorage.setItem('fx_analyses_v4', JSON.stringify(analyses));
+            localStorage.setItem('fx_analyses_v5', JSON.stringify(analyses));
             document.getElementById('analysisForm').reset();
             document.getElementById('customPairContainer').classList.add('hidden');
+            checkBreakStatus();
             updateUI();
-            alert('Análisis base guardado correctamente.');
+            alert('¡Análisis guardado y combinaciones generadas!');
             switchTab('execution');
         }
 
         function deleteAnalysis(id) {
-            if(confirm('¿Eliminar este análisis? Las zonas marcadas ya no estarán disponibles para nuevas operaciones.')) {
+            if(confirm('¿Eliminar esta combinación de zona?')) {
                 analyses = analyses.filter(a => a.id !== id);
-                localStorage.setItem('fx_analyses_v4', JSON.stringify(analyses));
+                localStorage.setItem('fx_analyses_v5', JSON.stringify(analyses));
                 updateUI();
             }
         }
 
         function masterReset() {
-            if(confirm('⚠️ ADVERTENCIA: ¿Estás seguro de hacer un reinicio general? Se borrarán todos los análisis y operaciones guardadas.')) {
-                localStorage.removeItem('fx_analyses_v4');
-                localStorage.removeItem('fx_trades_v4');
+            if(confirm('⚠️ ¿Reiniciar todo el sistema? Se borrarán datos y análisis.')) {
+                localStorage.removeItem('fx_analyses_v5');
+                localStorage.removeItem('fx_trades_v5');
                 analyses = [];
                 trades = [];
                 updateUI();
-                alert('Sistema reiniciado con éxito.');
-            }
-        }
-
-        function populateAvailableZones() {
-            const analysisId = document.getElementById('trAnalysisRef').value;
-            const zoneSelect = document.getElementById('trSpecificZone');
-            zoneSelect.innerHTML = '<option value="">-- Selecciona Zona Específica --</option>';
-
-            const obj = analyses.find(a => a.id === analysisId);
-            if(obj && obj.zones) {
-                obj.zones.forEach(z => {
-                    zoneSelect.innerHTML += `<option value="${z}">${z}</option>`;
-                });
+                alert('Sistema reiniciado.');
             }
         }
 
@@ -496,33 +479,32 @@
 
             const trade = {
                 id: 'trd_' + Date.now(),
-                analysisId: analysisId,
                 pair: analysisObj ? analysisObj.pair : 'EUR/USD',
-                specificZone: document.getElementById('trSpecificZone').value,
+                combinedZone: analysisObj ? analysisObj.combinedName : 'N/A',
                 executionType: document.getElementById('trExecutionType').value,
                 confirmator: document.getElementById('trConfirmator').value,
+                tf: document.getElementById('trTF').value,
+                rr: document.getElementById('trRR').value,
                 result: document.getElementById('trResult').value,
                 date: new Date().toLocaleDateString()
             };
 
             trades.push(trade);
-            localStorage.setItem('fx_trades_v4', JSON.stringify(trades));
+            localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
             document.getElementById('tradeForm').reset();
-            document.getElementById('trSpecificZone').innerHTML = '<option value="">-- Primero selecciona un análisis --</option>';
             updateUI();
             alert('Operación registrada exitosamente.');
             switchTab('history');
         }
 
         function deleteTrade(id) {
-            if(confirm('¿Estás seguro de eliminar este registro?')) {
+            if(confirm('¿Eliminar esta operación?')) {
                 trades = trades.filter(t => t.id !== id);
-                localStorage.setItem('fx_trades_v4', JSON.stringify(trades));
+                localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
                 updateUI();
             }
         }
 
-        // Modal de edición de resultado
         function openEditModal(id) {
             const trade = trades.find(t => t.id === id);
             if(trade) {
@@ -539,39 +521,35 @@
         function saveEditedTrade() {
             const id = document.getElementById('editTradeId').value;
             const newResult = document.getElementById('editTradeResult').value;
-            
             const trade = trades.find(t => t.id === id);
             if(trade) {
                 trade.result = newResult;
-                localStorage.setItem('fx_trades_v4', JSON.stringify(trades));
+                localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
                 closeEditModal();
                 updateUI();
             }
         }
 
         function updateUI() {
-            // Poblar selector de análisis en ejecución
             const select = document.getElementById('trAnalysisRef');
-            select.innerHTML = '<option value="">-- Selecciona Análisis Activo --</option>';
+            select.innerHTML = '<option value="">-- Selecciona Zona Disponible --</option>';
             analyses.forEach(a => {
-                select.innerHTML += `<option value="${a.id}">[${a.pair}] Zonas: ${a.zones.join(', ')} (${a.impulseTF})</option>`;
+                select.innerHTML += `<option value="${a.id}">[${a.pair}] ${a.combinedName}</option>`;
             });
 
-            // Poblar tabla de gestión de análisis (Paso 1)
             const analysisTbody = document.getElementById('analysesTableBody');
             analysisTbody.innerHTML = '';
             if(analyses.length === 0) {
-                analysisTbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-slate-400">No hay mapeos de análisis guardados.</td></tr>`;
+                analysisTbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">No hay combinaciones de zonas guardadas.</td></tr>`;
             } else {
                 analyses.forEach(a => {
                     analysisTbody.innerHTML += `
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
                             <td class="px-4 py-3 text-xs text-slate-500 font-mono">${a.date}</td>
                             <td class="px-4 py-3 font-black text-slate-900 dark:text-white">${a.pair}</td>
-                            <td class="px-4 py-3 text-xs font-semibold text-accentBlue">${a.zones.join(' | ')}</td>
-                            <td class="px-4 py-3 text-xs text-slate-500 dark:text-slate-400">${a.notes}</td>
+                            <td class="px-4 py-3 text-xs font-semibold text-accentBlue">${a.combinedName}</td>
                             <td class="px-4 py-3 text-right">
-                                <button onclick="deleteAnalysis('${a.id}')" class="text-red-500 hover:text-red-400 text-xs font-medium bg-red-950/20 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-900 transition">Eliminar Zona</button>
+                                <button onclick="deleteAnalysis('${a.id}')" class="text-red-500 hover:text-red-400 text-xs font-medium bg-red-950/20 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-900 transition">Eliminar</button>
                             </td>
                         </tr>
                     `;
@@ -595,7 +573,7 @@
             });
 
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">No hay operaciones registradas con los filtros actuales.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">No hay operaciones registradas.</td></tr>`;
                 return;
             }
 
@@ -610,10 +588,10 @@
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
                         <td class="px-4 py-3.5 text-xs text-slate-500 font-mono">${t.date}</td>
                         <td class="px-4 py-3.5 font-black text-slate-900 dark:text-white">${t.pair}</td>
-                        <td class="px-4 py-3.5 text-xs font-semibold text-accentBlue">${t.specificZone}</td>
+                        <td class="px-4 py-3.5 text-xs font-semibold text-accentBlue">${t.combinedZone}</td>
                         <td class="px-4 py-3.5 text-xs">
-                            <span class="block font-medium text-slate-800 dark:text-slate-200">${t.executionType}</span>
-                            <span class="text-slate-400 dark:text-slate-500">${t.confirmator}</span>
+                            <span class="block font-medium text-slate-800 dark:text-slate-200">${t.executionType} • ${t.confirmator}</span>
+                            <span class="text-slate-400 dark:text-slate-500">${t.tf} • R:R ${t.rr}</span>
                         </td>
                         <td class="px-4 py-3.5"><span class="px-2.5 py-1 rounded-lg text-xs font-bold ${badgeColor}">${t.result}</span></td>
                         <td class="px-4 py-3.5 text-right space-x-1">
@@ -635,7 +613,12 @@
             let grossLoss = 0;
 
             trades.forEach(t => {
-                if(t.result === 'WIN') { totalR += 3.0; grossProfit += 3.0; }
+                let multiplier = 3.0;
+                if(t.rr === '1:2') multiplier = 2.0;
+                if(t.rr === '1:4') multiplier = 4.0;
+                if(t.rr === '1:5') multiplier = 5.0;
+
+                if(t.result === 'WIN') { totalR += multiplier; grossProfit += multiplier; }
                 if(t.result === 'PARTIAL') { totalR += 1.5; grossProfit += 1.5; }
                 if(t.result === 'LOSS') { totalR -= 1.0; grossLoss += 1.0; }
             });
@@ -647,30 +630,8 @@
             document.getElementById('dashTotalR').innerText = `${totalR >= 0 ? '+' : ''}${totalR.toFixed(1)} R`;
             document.getElementById('dashProfitFactor').innerText = profitFactor;
             document.getElementById('dashTotalTrades').innerText = trades.length;
-
-            calcZoneMetrics("Zona de Decisión (Vela de Mechas)", 'zone1WinRate', 'zone1TotalR');
-            calcZoneMetrics("Order Block (OB)", 'zone2WinRate', 'zone2TotalR');
-            calcZoneMetrics("Fair Value Gap (FVG)", 'zone3WinRate', 'zone3TotalR');
         }
 
-        function calcZoneMetrics(zoneName, wrElemId, rElemId) {
-            const zoneTrades = trades.filter(t => t.specificZone === zoneName && t.result !== 'OPEN');
-            const closedCount = zoneTrades.length;
-            const zoneWins = zoneTrades.filter(t => t.result === 'WIN' || t.result === 'PARTIAL').length;
-            const wr = closedCount > 0 ? ((zoneWins / closedCount) * 100).toFixed(1) : 0;
-
-            let rSum = 0;
-            zoneTrades.forEach(t => {
-                if(t.result === 'WIN') rSum += 3.0;
-                if(t.result === 'PARTIAL') rSum += 1.5;
-                if(t.result === 'LOSS') rSum -= 1.0;
-            });
-
-            document.getElementById(wrElemId).innerText = `${wr}% (${zoneWins}/${closedCount})`;
-            document.getElementById(rElemId).innerText = `${rSum >= 0 ? '+' : ''}${rSum.toFixed(1)} R`;
-        }
-
-        // Initial render on load
         updateUI();
     </script>
 </body>
