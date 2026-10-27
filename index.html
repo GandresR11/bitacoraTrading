@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FX Journal Pro - Institutional Trading Core</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -14,8 +15,6 @@
                         darkBg: '#070b14',
                         cardBg: '#0e1626',
                         cardHover: '#17223b',
-                        lightBg: '#f8fafc',
-                        lightCardBg: '#ffffff',
                         accentGreen: '#10b981',
                         accentRed: '#ef4444',
                         accentBlue: '#3b82f6',
@@ -27,10 +26,10 @@
         }
     </script>
 </head>
-<body class="bg-darkBg text-slate-100 dark:bg-darkBg dark:text-slate-150 bg-slate-100 text-slate-900 font-sans min-h-screen flex flex-col pb-28 transition-colors duration-300">
+<body class="bg-slate-100 text-slate-900 dark:bg-darkBg dark:text-slate-100 font-sans min-h-screen flex flex-col pb-28 transition-colors duration-300">
 
-    <!-- HEADER: CONTROLES GLOBALES -->
-    <header class="bg-cardBg dark:bg-cardBg bg-white border-b border-slate-200 dark:border-slate-800/80 px-6 py-5 shadow-xl transition-colors duration-300">
+    <!-- HEADER & CONTROLES GLOBALES -->
+    <header class="bg-white dark:bg-cardBg border-b border-slate-200 dark:border-slate-800/80 px-6 py-5 shadow-xl transition-colors duration-300">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-900/30">
@@ -38,59 +37,59 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-black tracking-wider text-slate-900 dark:text-white">FX JOURNAL <span class="text-accentBlue">PRO</span></h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Sistema Operativo Cuantitativo & Disciplina</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Trading Execution Assistant & Quantitative Journal</p>
                 </div>
             </div>
             
             <div class="flex flex-wrap items-center gap-2 text-xs font-medium">
-                <button onclick="switchTab('analysis')" class="bg-accentBlue/20 text-accentBlue px-3 py-1.5 rounded-xl border border-accentBlue/30 hover:bg-accentBlue/30 transition font-bold">
+                <button type="button" onclick="switchTab('analysis')" class="bg-accentBlue/10 dark:bg-accentBlue/20 text-accentBlue px-3 py-1.5 rounded-xl border border-accentBlue/30 hover:bg-accentBlue/30 transition font-bold">
                     📌 Ir al Paso 1
                 </button>
-                <button onclick="toggleTheme()" class="bg-slate-200 dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-800 transition">
+                <button type="button" onclick="toggleTheme()" class="bg-slate-200 dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-800 transition">
                     <span id="themeIcon">☀️</span> Tema <span id="themeText">Claro</span>
                 </button>
-                <button onclick="masterReset()" class="bg-red-950/40 border border-red-800 text-red-400 px-3 py-1.5 rounded-xl hover:bg-red-900/50 transition font-semibold">
+                <button type="button" onclick="masterReset()" class="bg-red-500/10 dark:bg-red-950/40 border border-red-500/30 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-xl hover:bg-red-500/20 transition font-semibold">
                     🗑️ Reinicio General
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
+    <!-- CONTENEDOR PRINCIPAL -->
     <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 space-y-6">
 
         <!-- PESTAÑA 1: REGISTRO Y GESTIÓN DE ZONAS (ANÁLISIS) -->
         <section id="tab-analysis" class="space-y-6">
             
-            <!-- RECUADRO CON LA LÓGICA DEL SISTEMA (SOLICITADO) -->
-            <div class="bg-gradient-to-r from-blue-950/60 via-slate-900 to-indigo-950/60 border border-blue-500/30 rounded-3xl p-5 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-sm">
+            <!-- RECUADRO CON LA LÓGICA DEL SISTEMA -->
+            <div class="bg-gradient-to-r from-blue-900/20 via-slate-900 to-indigo-900/20 dark:from-blue-950/60 dark:via-slate-900 dark:to-indigo-950/60 border border-blue-500/30 rounded-3xl p-5 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-sm">
                 <div class="flex items-center space-x-3">
                     <span class="text-2xl">🧠</span>
                     <div>
-                        <h4 class="font-bold text-white uppercase tracking-wider text-xs text-accentBlue">Lógica Operativa del Sistema</h4>
-                        <p class="text-slate-300 mt-0.5">Sigue estrictamente el ciclo institucional antes de cada ejecución.</p>
+                        <h4 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-xs text-accentBlue">Lógica Operativa del Sistema</h4>
+                        <p class="text-slate-600 dark:text-slate-300 mt-0.5">Sigue estrictamente el ciclo institucional antes de cada ejecución.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
-                    <span class="bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-800 text-slate-200">1. Impulso</span>
-                    <span class="text-blue-400 font-bold">➔</span>
-                    <span class="bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-800 text-slate-200">2. Identificación Zonas</span>
-                    <span class="text-blue-400 font-bold">➔</span>
-                    <span class="bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-800 text-slate-200">3. Precio Regresa</span>
-                    <span class="text-blue-400 font-bold">➔</span>
-                    <span class="bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-800 text-accentGreen font-bold">4. Confirmación</span>
+                    <span class="bg-slate-200 dark:bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-800 text-slate-800 dark:text-slate-200">1. Impulso</span>
+                    <span class="text-blue-500 font-bold">➔</span>
+                    <span class="bg-slate-200 dark:bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-800 text-slate-800 dark:text-slate-200">2. Identificación Zonas</span>
+                    <span class="text-blue-500 font-bold">➔</span>
+                    <span class="bg-slate-200 dark:bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-800 text-slate-800 dark:text-slate-200">3. Precio Regresa</span>
+                    <span class="text-blue-500 font-bold">➔</span>
+                    <span class="bg-slate-200 dark:bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-800 text-accentGreen font-bold">4. Confirmación</span>
                 </div>
             </div>
 
             <!-- FORMULARIO PASO 1 -->
-            <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300">
+            <div class="bg-white dark:bg-cardBg border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300">
                 <div class="border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
                     <span class="text-xs font-bold text-accentBlue uppercase tracking-widest">Paso 1 del Sistema</span>
                     <h2 class="text-2xl font-black text-slate-900 dark:text-white mt-1">Registro de Zonas & Mapeo Fractal</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Valida el rompimiento estructural y genera las combinaciones exactas de zonas para la ejecución.</p>
                 </div>
 
-                <form id="analysisForm" onsubmit="saveAnalysis(event)" class="space-y-5">
+                <form id="analysisForm" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Par Forex</label>
@@ -103,7 +102,7 @@
                             </select>
                         </div>
                         <div id="customPairContainer" class="hidden">
-                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nombre del Par Opcional</label>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Nombre del Par</label>
                             <input type="text" id="anCustomPair" placeholder="Ej: AUD/USD" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 font-mono">
                         </div>
                         <div>
@@ -116,7 +115,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">¿Cierre más allá del último mín/máx?</label>
-                            <select id="anBreak" onchange="checkBreakStatus()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
+                            <select id="anBreak" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accentBlue transition">
                                 <option value="SI">Sí</option>
                                 <option value="NO">No</option>
                             </select>
@@ -150,7 +149,7 @@
                         <button type="submit" id="btnSaveAnalysis" class="bg-accentBlue hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-2xl text-sm transition shadow-lg shadow-blue-600/20">
                             Guardar Análisis & Generar Combinaciones ➔
                         </button>
-                        <p id="analysisErrorMsg" class="hidden text-xs text-red-400 font-bold">Impulso no válido porque no quebró min/max</p>
+                        <p id="analysisErrorMsg" class="hidden text-xs text-red-500 font-bold">Impulso no válido porque no quebró min/max</p>
                     </div>
                 </form>
 
@@ -178,14 +177,14 @@
 
         <!-- PESTAÑA 2: REGISTRO DE OPERACIÓN -->
         <section id="tab-execution" class="hidden space-y-6">
-            <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300">
+            <div class="bg-white dark:bg-cardBg border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300">
                 <div class="border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
                     <span class="text-xs font-bold text-accentGreen uppercase tracking-widest">Paso 2 del Sistema</span>
                     <h2 class="text-2xl font-black text-slate-900 dark:text-white mt-1">Registro de Operación & Gatillo</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Selecciona la zona disponible del Paso 1, la modalidad de orden, confirmador, temporalidad y R:R.</p>
                 </div>
 
-                <form id="tradeForm" onsubmit="saveTrade(event)" class="space-y-5">
+                <form id="tradeForm" class="space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Seleccionar Zona Combinada del Paso 1</label>
@@ -250,7 +249,7 @@
 
         <!-- PESTAÑA 3: LISTA DE OPERACIONES Y FILTROS -->
         <section id="tab-history" class="hidden space-y-6">
-            <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300 space-y-5">
+            <div class="bg-white dark:bg-cardBg border border-slate-200 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl transition-colors duration-300 space-y-5">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
                     <div>
                         <h2 class="text-2xl font-black text-slate-900 dark:text-white">Lista de Operaciones & Filtros</h2>
@@ -258,14 +257,14 @@
                     </div>
                     <!-- Filtros -->
                     <div class="flex flex-wrap gap-2">
-                        <select id="filterPair" onchange="filterTrades()" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none">
+                        <select id="filterPair" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none">
                             <option value="ALL">Todos los Pares</option>
                             <option value="EUR/USD">EUR/USD</option>
                             <option value="GBP/USD">GBP/USD</option>
                             <option value="USD/CAD">USD/CAD</option>
                             <option value="USD/CHF">USD/CHF</option>
                         </select>
-                        <select id="filterResult" onchange="filterTrades()" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none">
+                        <select id="filterResult" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-none">
                             <option value="ALL">Todos los Resultados</option>
                             <option value="WIN">Win</option>
                             <option value="PARTIAL">Parcial</option>
@@ -304,22 +303,22 @@
 
             <!-- Métricas Principales -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-cardBg dark:bg-cardBg bg-white p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
+                <div class="bg-white dark:bg-cardBg p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-500 dark:text-slate-400">Win Rate Efectivo Global</p>
                     <h3 id="dashWinRate" class="text-3xl font-black text-accentGreen mt-1">0%</h3>
                     <p id="dashWinRateSub" class="text-xs text-slate-400 dark:text-slate-500 mt-1">0 TP / 0 Cerrados</p>
                 </div>
-                <div class="bg-cardBg dark:bg-cardBg bg-white p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
+                <div class="bg-white dark:bg-cardBg p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-500 dark:text-slate-400">Expectativa Total (R Acumulado)</p>
                     <h3 id="dashTotalR" class="text-3xl font-black text-accentBlue mt-1">0.0 R</h3>
                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Rendimiento neto en R</p>
                 </div>
-                <div class="bg-cardBg dark:bg-cardBg bg-white p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
+                <div class="bg-white dark:bg-cardBg p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-500 dark:text-slate-400">Profit Factor</p>
                     <h3 id="dashProfitFactor" class="text-3xl font-black text-slate-900 dark:text-white mt-1">0.00</h3>
                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Ganancia / Pérdida</p>
                 </div>
-                <div class="bg-cardBg dark:bg-cardBg bg-white p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
+                <div class="bg-white dark:bg-cardBg p-5 rounded-3xl border border-slate-200 dark:border-slate-800/80 shadow-xl">
                     <p class="text-xs text-slate-500 dark:text-slate-400">Total Operaciones</p>
                     <h3 id="dashTotalTrades" class="text-3xl font-black text-accentPurple mt-1">0</h3>
                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Historial auditado</p>
@@ -328,21 +327,21 @@
         </section>
     </main>
 
-    <!-- MENÚ DE NAVEGACIÓN INFERIOR FIJO (BOTTOM NAVIGATION BAR) -->
+    <!-- MENÚ DE NAVEGACIÓN INFERIOR FIJO -->
     <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/80 backdrop-blur-xl px-3 py-2 rounded-2xl shadow-2xl z-50 flex items-center space-x-1 md:space-x-2 transition-colors duration-300">
-        <button onclick="switchTab('analysis')" id="tabBtn-analysis" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30">
+        <button type="button" onclick="switchTab('analysis')" id="tabBtn-analysis" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30">
             <span>🗺️</span>
             <span class="hidden md:inline">Zonas</span>
         </button>
-        <button onclick="switchTab('execution')" id="tabBtn-execution" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
+        <button type="button" onclick="switchTab('execution')" id="tabBtn-execution" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
             <span>⚡</span>
             <span class="hidden md:inline">Operación</span>
         </button>
-        <button onclick="switchTab('history')" id="tabBtn-history" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
+        <button type="button" onclick="switchTab('history')" id="tabBtn-history" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
             <span>📋</span>
             <span class="hidden md:inline">Lista</span>
         </button>
-        <button onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
+        <button type="button" onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800">
             <span>📊</span>
             <span class="hidden md:inline">Dashboard</span>
         </button>
@@ -350,7 +349,7 @@
 
     <!-- MODAL DE EDICIÓN DE RESULTADO -->
     <div id="editModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-cardBg dark:bg-cardBg bg-white border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+        <div class="bg-white dark:bg-cardBg border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
             <h3 class="text-lg font-bold text-slate-900 dark:text-white">Editar Resultado del Trade</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400">Actualiza el resultado final de la ejecución para auditoría cuantitativa.</p>
             <input type="hidden" id="editTradeId">
@@ -361,19 +360,28 @@
                 <option value="LOSS">Loss (-1R)</option>
             </select>
             <div class="flex justify-end space-x-3 pt-2">
-                <button onclick="closeEditModal()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold transition">Cancelar</button>
-                <button onclick="saveEditedTrade()" class="bg-accentBlue hover:bg-blue-600 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-md">Guardar Cambios</button>
+                <button type="button" onclick="closeEditModal()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold transition">Cancelar</button>
+                <button type="button" onclick="saveEditedTrade()" class="bg-accentBlue hover:bg-blue-600 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-md">Guardar Cambios</button>
             </div>
         </div>
     </div>
 
     <!-- SCRIPT DE LÓGICA Y ESTADÍSTICAS -->
     <script>
-        let analyses = JSON.parse(localStorage.getItem('fx_analyses_v5')) || [];
-        let trades = JSON.parse(localStorage.getItem('fx_trades_v5')) || [];
-        let currentTheme = localStorage.getItem('fx_theme') || 'dark';
+        let analyses = [];
+        let trades = [];
 
-        if(currentTheme === 'light') {
+        // Cargar datos al iniciar
+        try {
+            analyses = JSON.parse(localStorage.getItem('fx_analyses_v6')) || [];
+            trades = JSON.parse(localStorage.getItem('fx_trades_v6')) || [];
+        } catch (e) {
+            console.error("Error al cargar localStorage", e);
+        }
+
+        // Inicializar Tema
+        let currentTheme = localStorage.getItem('fx_theme') || 'dark';
+        if (currentTheme === 'light') {
             document.documentElement.classList.remove('dark');
             document.getElementById('themeIcon').innerText = '🌙';
             document.getElementById('themeText').innerText = 'Oscuro';
@@ -384,7 +392,7 @@
         }
 
         function toggleTheme() {
-            if(document.documentElement.classList.contains('dark')) {
+            if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('fx_theme', 'light');
                 document.getElementById('themeIcon').innerText = '🌙';
@@ -397,11 +405,133 @@
             }
         }
 
+        function switchTab(tabId) {
+            const tabs = ['analysis', 'execution', 'history', 'dashboard'];
+            tabs.forEach(t => {
+                const sec = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`tabBtn-${t}`);
+                if (sec) sec.classList.add('hidden');
+                if (btn) btn.className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800";
+            });
+
+            const targetSec = document.getElementById(`tab-${tabId}`);
+            const targetBtn = document.getElementById(`tabBtn-${tabId}`);
+            if (targetSec) targetSec.classList.remove('hidden');
+            if (targetBtn) targetBtn.className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Event Listeners tras cargar DOM
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const anPairSelect = document.getElementById('anPair');
+            if (anPairSelect) {
+                anPairSelect.addEventListener('change', (e) => {
+                    const customCont = document.getElementById('customPairContainer');
+                    const customInput = document.getElementById('anCustomPair');
+                    if (e.target.value === 'CUSTOM') {
+                        customCont.classList.remove('hidden');
+                        if (customInput) customInput.required = true;
+                    } else {
+                        customCont.classList.add('hidden');
+                        if (customInput) customInput.required = false;
+                    }
+                });
+            }
+
+            const anBreakSelect = document.getElementById('anBreak');
+            if (anBreakSelect) {
+                anBreakSelect.addEventListener('change', checkBreakStatus);
+            }
+
+            const filterPairSelect = document.getElementById('filterPair');
+            const filterResultSelect = document.getElementById('filterResult');
+            if (filterPairSelect) filterPairSelect.addEventListener('change', filterTrades);
+            if (filterResultSelect) filterResultSelect.addEventListener('change', filterTrades);
+
+            const analysisForm = document.getElementById('analysisForm');
+            if (analysisForm) {
+                analysisForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const breakStatus = document.getElementById('anBreak').value;
+                    if (breakStatus === 'NO') return;
+
+                    let pair = document.getElementById('anPair').value;
+                    if (pair === 'CUSTOM') {
+                        pair = document.getElementById('anCustomPair').value.toUpperCase();
+                    }
+                    const impulse = document.getElementById('anImpulse').value;
+
+                    let selectedZones = [];
+                    if (document.getElementById('chkOB').checked) selectedZones.push('OB');
+                    if (document.getElementById('chkFVG').checked) selectedZones.push('FVG');
+                    if (document.getElementById('chkIFVG').checked) selectedZones.push('iFVG');
+                    if (document.getElementById('chkDec').checked) selectedZones.push('Vela Indecisión');
+
+                    if (selectedZones.length === 0) {
+                        alert('⚠️ Debes seleccionar al menos una zona.');
+                        return;
+                    }
+
+                    selectedZones.forEach(zone => {
+                        const combinedName = `${zone} de ${impulse}`;
+                        const analysisItem = {
+                            id: 'ana_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                            pair: pair,
+                            combinedName: combinedName,
+                            date: new Date().toLocaleDateString()
+                        };
+                        analyses.push(analysisItem);
+                    });
+
+                    localStorage.setItem('fx_analyses_v6', JSON.stringify(analyses));
+                    analysisForm.reset();
+                    document.getElementById('customPairContainer').classList.add('hidden');
+                    checkBreakStatus();
+                    updateUI();
+                    alert('¡Análisis guardado y combinaciones generadas!');
+                    switchTab('execution');
+                });
+            }
+
+            const tradeForm = document.getElementById('tradeForm');
+            if (tradeForm) {
+                tradeForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const analysisId = document.getElementById('trAnalysisRef').value;
+                    const analysisObj = analyses.find(a => a.id === analysisId);
+
+                    const trade = {
+                        id: 'trd_' + Date.now(),
+                        pair: analysisObj ? analysisObj.pair : 'EUR/USD',
+                        combinedZone: analysisObj ? analysisObj.combinedName : 'N/A',
+                        executionType: document.getElementById('trExecutionType').value,
+                        confirmator: document.getElementById('trConfirmator').value,
+                        tf: document.getElementById('trTF').value,
+                        rr: document.getElementById('trRR').value,
+                        result: document.getElementById('trResult').value,
+                        date: new Date().toLocaleDateString()
+                    };
+
+                    trades.push(trade);
+                    localStorage.setItem('fx_trades_v6', JSON.stringify(trades));
+                    tradeForm.reset();
+                    updateUI();
+                    alert('Operación registrada exitosamente.');
+                    switchTab('history');
+                });
+            }
+
+            updateUI();
+        });
+
         function checkBreakStatus() {
             const val = document.getElementById('anBreak').value;
             const btn = document.getElementById('btnSaveAnalysis');
             const msg = document.getElementById('analysisErrorMsg');
-            if(val === 'NO') {
+            if (val === 'NO') {
                 btn.disabled = true;
                 btn.classList.add('opacity-50', 'cursor-not-allowed');
                 msg.classList.remove('hidden');
@@ -412,82 +542,18 @@
             }
         }
 
-        function switchTab(tabId) {
-            const tabs = ['analysis', 'execution', 'history', 'dashboard'];
-            tabs.forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800";
-            });
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tabId}`).className = "flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-bold transition bg-accentBlue text-white shadow-lg shadow-blue-600/30";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        document.getElementById('anPair').addEventListener('change', (e) => {
-            const customCont = document.getElementById('customPairContainer');
-            if(e.target.value === 'CUSTOM') {
-                customCont.classList.remove('hidden');
-                document.getElementById('anCustomPair').required = true;
-            } else {
-                customCont.classList.add('hidden');
-                document.getElementById('anCustomPair').required = false;
-            }
-        });
-
-        function saveAnalysis(e) {
-            e.preventDefault();
-            const breakStatus = document.getElementById('anBreak').value;
-            if(breakStatus === 'NO') return;
-
-            let pair = document.getElementById('anPair').value;
-            if(pair === 'CUSTOM') {
-                pair = document.getElementById('anCustomPair').value.toUpperCase();
-            }
-            const impulse = document.getElementById('anImpulse').value;
-
-            let selectedZones = [];
-            if(document.getElementById('chkOB').checked) selectedZones.push('OB');
-            if(document.getElementById('chkFVG').checked) selectedZones.push('FVG');
-            if(document.getElementById('chkIFVG').checked) selectedZones.push('iFVG');
-            if(document.getElementById('chkDec').checked) selectedZones.push('Vela Indecisión');
-
-            if(selectedZones.length === 0) {
-                alert('⚠️ Debes seleccionar al menos una zona.');
-                return;
-            }
-
-            selectedZones.forEach(zone => {
-                const combinedName = `${zone} de ${impulse}`;
-                const analysisItem = {
-                    id: 'ana_' + Date.now() + '_' + Math.random().toString(36.substr(2, 5)),
-                    pair: pair,
-                    combinedName: combinedName,
-                    date: new Date().toLocaleDateString()
-                };
-                analyses.push(analysisItem);
-            });
-
-            localStorage.setItem('fx_analyses_v5', JSON.stringify(analyses));
-            document.getElementById('analysisForm').reset();
-            document.getElementById('customPairContainer').classList.add('hidden');
-            checkBreakStatus();
-            updateUI();
-            alert('¡Análisis guardado y combinaciones generadas!');
-            switchTab('execution');
-        }
-
         function deleteAnalysis(id) {
-            if(confirm('¿Eliminar esta combinación de zona?')) {
+            if (confirm('¿Eliminar esta combinación de zona?')) {
                 analyses = analyses.filter(a => a.id !== id);
-                localStorage.setItem('fx_analyses_v5', JSON.stringify(analyses));
+                localStorage.setItem('fx_analyses_v6', JSON.stringify(analyses));
                 updateUI();
             }
         }
 
         function masterReset() {
-            if(confirm('⚠️ ¿Reiniciar todo el sistema? Se borrarán datos y análisis.')) {
-                localStorage.removeItem('fx_analyses_v5');
-                localStorage.removeItem('fx_trades_v5');
+            if (confirm('⚠️ ¿Reiniciar todo el sistema? Se borrarán datos y análisis.')) {
+                localStorage.removeItem('fx_analyses_v6');
+                localStorage.removeItem('fx_trades_v6');
                 analyses = [];
                 trades = [];
                 updateUI();
@@ -495,42 +561,17 @@
             }
         }
 
-        function saveTrade(e) {
-            e.preventDefault();
-            const analysisId = document.getElementById('trAnalysisRef').value;
-            const analysisObj = analyses.find(a => a.id === analysisId);
-
-            const trade = {
-                id: 'trd_' + Date.now(),
-                pair: analysisObj ? analysisObj.pair : 'EUR/USD',
-                combinedZone: analysisObj ? analysisObj.combinedName : 'N/A',
-                executionType: document.getElementById('trExecutionType').value,
-                confirmator: document.getElementById('trConfirmator').value,
-                tf: document.getElementById('trTF').value,
-                rr: document.getElementById('trRR').value,
-                result: document.getElementById('trResult').value,
-                date: new Date().toLocaleDateString()
-            };
-
-            trades.push(trade);
-            localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
-            document.getElementById('tradeForm').reset();
-            updateUI();
-            alert('Operación registrada exitosamente.');
-            switchTab('history');
-        }
-
         function deleteTrade(id) {
-            if(confirm('¿Eliminar esta operación?')) {
+            if (confirm('¿Eliminar esta operación?')) {
                 trades = trades.filter(t => t.id !== id);
-                localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
+                localStorage.setItem('fx_trades_v6', JSON.stringify(trades));
                 updateUI();
             }
         }
 
         function openEditModal(id) {
             const trade = trades.find(t => t.id === id);
-            if(trade) {
+            if (trade) {
                 document.getElementById('editTradeId').value = trade.id;
                 document.getElementById('editTradeResult').value = trade.result;
                 document.getElementById('editModal').classList.remove('hidden');
@@ -545,38 +586,44 @@
             const id = document.getElementById('editTradeId').value;
             const newResult = document.getElementById('editTradeResult').value;
             const trade = trades.find(t => t.id === id);
-            if(trade) {
+            if (trade) {
                 trade.result = newResult;
-                localStorage.setItem('fx_trades_v5', JSON.stringify(trades));
+                localStorage.setItem('fx_trades_v6', JSON.stringify(trades));
                 closeEditModal();
                 updateUI();
             }
         }
 
         function updateUI() {
+            // Poblar dropdown de ejecución
             const select = document.getElementById('trAnalysisRef');
-            select.innerHTML = '<option value="">-- Selecciona Zona Disponible --</option>';
-            analyses.forEach(a => {
-                select.innerHTML += `<option value="${a.id}">[${a.pair}] ${a.combinedName}</option>`;
-            });
-
-            const analysisTbody = document.getElementById('analysesTableBody');
-            analysisTbody.innerHTML = '';
-            if(analyses.length === 0) {
-                analysisTbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">No hay combinaciones de zonas guardadas.</td></tr>`;
-            } else {
+            if (select) {
+                select.innerHTML = '<option value="">-- Selecciona Zona Disponible --</option>';
                 analyses.forEach(a => {
-                    analysisTbody.innerHTML += `
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
-                            <td class="px-4 py-3 text-xs text-slate-500 font-mono">${a.date}</td>
-                            <td class="px-4 py-3 font-black text-slate-900 dark:text-white">${a.pair}</td>
-                            <td class="px-4 py-3 text-xs font-semibold text-accentBlue">${a.combinedName}</td>
-                            <td class="px-4 py-3 text-right">
-                                <button onclick="deleteAnalysis('${a.id}')" class="text-red-500 hover:text-red-400 text-xs font-medium bg-red-950/20 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-900 transition">Eliminar</button>
-                            </td>
-                        </tr>
-                    `;
+                    select.innerHTML += `<option value="${a.id}">[${a.pair}] ${a.combinedName}</option>`;
                 });
+            }
+
+            // Poblar tabla de zonas (Paso 1)
+            const analysisTbody = document.getElementById('analysesTableBody');
+            if (analysisTbody) {
+                analysisTbody.innerHTML = '';
+                if (analyses.length === 0) {
+                    analysisTbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-slate-400">No hay combinaciones de zonas guardadas.</td></tr>`;
+                } else {
+                    analyses.forEach(a => {
+                        analysisTbody.innerHTML += `
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                                <td class="px-4 py-3 text-xs text-slate-500 font-mono">${a.date}</td>
+                                <td class="px-4 py-3 font-black text-slate-900 dark:text-white">${a.pair}</td>
+                                <td class="px-4 py-3 text-xs font-semibold text-accentBlue">${a.combinedName}</td>
+                                <td class="px-4 py-3 text-right">
+                                    <button type="button" onclick="deleteAnalysis('${a.id}')" class="text-red-500 hover:text-red-400 text-xs font-medium bg-red-950/20 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-900 transition">Eliminar</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
             }
 
             filterTrades();
@@ -584,9 +631,14 @@
         }
 
         function filterTrades() {
-            const pairFilter = document.getElementById('filterPair').value;
-            const resultFilter = document.getElementById('filterResult').value;
+            const pairElem = document.getElementById('filterPair');
+            const resultElem = document.getElementById('filterResult');
+            const pairFilter = pairElem ? pairElem.value : 'ALL';
+            const resultFilter = resultElem ? resultElem.value : 'ALL';
+
             const tbody = document.getElementById('tradesTableBody');
+            if (!tbody) return;
+
             tbody.innerHTML = '';
 
             let filtered = trades.filter(t => {
@@ -595,17 +647,17 @@
                 return matchPair && matchResult;
             });
 
-            if(filtered.length === 0) {
+            if (filtered.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-slate-400">No hay operaciones registradas.</td></tr>`;
                 return;
             }
 
             filtered.forEach(t => {
                 let badgeColor = "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300";
-                if(t.result === 'WIN') badgeColor = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-700";
-                if(t.result === 'LOSS') badgeColor = "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-400 border border-red-300 dark:border-red-700";
-                if(t.result === 'PARTIAL') badgeColor = "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-400 border border-blue-300 dark:border-blue-700";
-                if(t.result === 'OPEN') badgeColor = "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-400 border border-amber-300 dark:border-amber-700";
+                if (t.result === 'WIN') badgeColor = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-700";
+                if (t.result === 'LOSS') badgeColor = "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-400 border border-red-300 dark:border-red-700";
+                if (t.result === 'PARTIAL') badgeColor = "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-400 border border-blue-300 dark:border-blue-700";
+                if (t.result === 'OPEN') badgeColor = "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-400 border border-amber-300 dark:border-amber-700";
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
@@ -618,8 +670,8 @@
                         </td>
                         <td class="px-4 py-3.5"><span class="px-2.5 py-1 rounded-lg text-xs font-bold ${badgeColor}">${t.result}</span></td>
                         <td class="px-4 py-3.5 text-right space-x-1">
-                            <button onclick="openEditModal('${t.id}')" class="text-blue-600 dark:text-blue-400 hover:underline text-xs font-medium bg-blue-50 dark:bg-blue-950/40 px-2.5 py-1.5 rounded-lg border border-blue-200 dark:border-blue-900 transition">Editar</button>
-                            <button onclick="deleteTrade('${t.id}')" class="text-red-600 dark:text-red-400 hover:underline text-xs font-medium bg-red-50 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-200 dark:border-red-900 transition">Eliminar</button>
+                            <button type="button" onclick="openEditModal('${t.id}')" class="text-blue-600 dark:text-blue-400 hover:underline text-xs font-medium bg-blue-50 dark:bg-blue-950/40 px-2.5 py-1.5 rounded-lg border border-blue-200 dark:border-blue-900 transition">Editar</button>
+                            <button type="button" onclick="deleteTrade('${t.id}')" class="text-red-600 dark:text-red-400 hover:underline text-xs font-medium bg-red-50 dark:bg-red-950/40 px-2.5 py-1.5 rounded-lg border border-red-200 dark:border-red-900 transition">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -637,25 +689,29 @@
 
             trades.forEach(t => {
                 let multiplier = 3.0;
-                if(t.rr === '1:2') multiplier = 2.0;
-                if(t.rr === '1:4') multiplier = 4.0;
-                if(t.rr === '1:5') multiplier = 5.0;
+                if (t.rr === '1:2') multiplier = 2.0;
+                if (t.rr === '1:4') multiplier = 4.0;
+                if (t.rr === '1:5') multiplier = 5.0;
 
-                if(t.result === 'WIN') { totalR += multiplier; grossProfit += multiplier; }
-                if(t.result === 'PARTIAL') { totalR += 1.5; grossProfit += 1.5; }
-                if(t.result === 'LOSS') { totalR -= 1.0; grossLoss += 1.0; }
+                if (t.result === 'WIN') { totalR += multiplier; grossProfit += multiplier; }
+                if (t.result === 'PARTIAL') { totalR += 1.5; grossProfit += 1.5; }
+                if (t.result === 'LOSS') { totalR -= 1.0; grossLoss += 1.0; }
             });
 
             let profitFactor = grossLoss > 0 ? (grossProfit / grossLoss).toFixed(2) : (grossProfit > 0 ? grossProfit.toFixed(2) : "0.00");
 
-            document.getElementById('dashWinRate').innerText = `${winRate}%`;
-            document.getElementById('dashWinRateSub').innerText = `${wins} TP / ${totalTrades} Cerrados`;
-            document.getElementById('dashTotalR').innerText = `${totalR >= 0 ? '+' : ''}${totalR.toFixed(1)} R`;
-            document.getElementById('dashProfitFactor').innerText = profitFactor;
-            document.getElementById('dashTotalTrades').innerText = trades.length;
-        }
+            const wrElem = document.getElementById('dashWinRate');
+            const wrSubElem = document.getElementById('dashWinRateSub');
+            const rElem = document.getElementById('dashTotalR');
+            const pfElem = document.getElementById('dashProfitFactor');
+            const ttElem = document.getElementById('dashTotalTrades');
 
-        updateUI();
+            if (wrElem) wrElem.innerText = `${winRate}%`;
+            if (wrSubElem) wrSubElem.innerText = `${wins} TP / ${totalTrades} Cerrados`;
+            if (rElem) rElem.innerText = `${totalR >= 0 ? '+' : ''}${totalR.toFixed(1)} R`;
+            if (pfElem) pfElem.innerText = profitFactor;
+            if (ttElem) ttElem.innerText = trades.length;
+        }
     </script>
 </body>
 </html>
